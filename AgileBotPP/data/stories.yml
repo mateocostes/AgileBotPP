@@ -1,0 +1,34 @@
+version: "3.1"
+
+stories:
+  
+- story: camino_votar_una_vez
+  steps:
+  - intent: votar_primera_votacion
+  - action: action_votar_primeravot
+  - checkpoint: check_siguiente
+
+- story: camino_votar_una_vez_con_opinion
+  steps:
+  - checkpoint: check_siguiente
+  - intent: opinion_primera_votacion
+  - action: action_motivo_primeravot
+  - checkpoint: check_siguiente2
+  
+- story: camino_votar_dos_veces
+  steps:
+  - checkpoint: check_siguiente
+  - checkpoint: check_siguiente2
+  - intent: votar_segunda_votacion
+  - action: action_votar_segundavot
+  - checkpoint: check_siguiente3
+  
+- story: camino_finalizar
+  steps:
+  - checkpoint: check_siguiente
+  - checkpoint: check_siguiente2
+  - checkpoint: check_siguiente3
+  - intent: finalizar_ceremonia
+  - action: action_finalizar_ceremonia #Se utiliza para reiniciar los json de votaciones
+  #- intent: despedir
+  #- action: utter_despedir

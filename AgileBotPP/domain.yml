@@ -1,0 +1,43 @@
+version: "3.1"
+
+intents:
+  - saludar
+  - despedir
+  - afirmar
+  - negar
+  - desafiar_bot
+  - votar_primera_votacion
+  - votar_segunda_votacion
+  - opinion_primera_votacion
+  - finalizar_ceremonia
+  #- opinion_segunda_votacion
+  
+entities:
+  - participante
+  - tarea
+  - voto_minimo
+  - voto_maximo
+
+responses:
+  utter_saludar:
+  - text: "Hola, que tal"
+  - text: "Buenas"
+
+  utter_despedir:
+  - text: "Chau!"
+  - text: "Hasta luego!"
+  - text: "Adios!"
+
+  utter_iamabot:
+  - text: "Soy un agilebot."
+  
+actions:
+  - "action_votar_primeravot"
+  - "action_votar_segundavot"
+  - "action_motivo_primeravot"
+  - "action_finalizar_ceremonia"
+  #- "action_motivo_segundavot"
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
