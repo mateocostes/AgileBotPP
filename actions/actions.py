@@ -92,7 +92,7 @@ class ActionVotarPrimeraVot(Action):
                                 voto = random.choice([20,40])
                                 message = "Voto " + str(voto)
                             else:
-                                voto = random.choice([40,100,-3,1000]) #faltaria ver la votacion -2 (Cafe)
+                                voto = random.choice([40,100,1000]) #faltaria ver la votacion -2 (Cafe) -3 (Signo pregunta)
                                 message = "Voto " + str(voto)
             (diccionarioVotacion[nombre_partipante]["Voto"]).append(voto) #Agrego a un json el voto
             (diccionarioVotacion[nombre_partipante]["Tarea"]).append(tarea) #Agrego a un json la tarea
