@@ -1,0 +1,236 @@
+version: "3.1"
+
+nlu:
+- intent: saludar
+  examples: |
+    - hola
+    - buenos dias
+    - buenas tardes
+    - buenas
+    - vamos
+    - que haces
+    - buenas noches
+    - hey
+    - que tal
+
+- intent: despedir
+  examples: |
+    - chau
+    - nos vemos
+    - adios
+    - nos vemos despues
+    - que tengas un lindo dia
+    - que tengas buenas tardes
+    - nos vemos luego
+    - hasta luego
+
+- intent: afirmar
+  examples: |
+    - si
+    - s
+    - por supuesto
+    - correcto
+    - tal cual
+    - claro
+
+- intent: negar
+  examples: |
+    - no
+    - n
+    - nunca
+    - no creo
+    - imposible
+    - no hay manera
+    - no necesariamente
+    
+- intent: desafiar_bot
+  examples: |
+    - eres un bot?
+    - eres un humano?
+    - estoy hablando con un bot?
+    - estoy hablando con un ser vivo?
+
+- intent: votar_primera_votacion
+  examples: |
+    - [mateocostes](participante) vota la tarea: [Crear tabla en SQL](tarea) 
+    - [felipearroyo](participante) vota la tarea: [Mejora del funcionamiento del script BotMovement](tarea)
+    - [agustinschilling](participante) vota la tarea: [Mejora del funcionamiento del script Notifier en Unity](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Mejora del funcionamiento del script Calculador de Java](tarea)
+    - [mateocostes](participante) vota la tarea: [Mejora del funcionamiento del script ManejadorArchivos](tarea)
+    - [agustinschilling](participante) vota la tarea: [Creacion de chatbot en Rasa](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Implementacion de funcion en Python](tarea)
+    - [mateocostes](participante) vota la tarea: [Agregar autenticacion con algun servicio](tarea) 
+    - [felipearroyo](participante) vota la tarea: [Realizar test automatizados para DataManager](tarea)
+    - [agustinschilling](participante) vota la tarea: [Realizar presentacion para el cliente](tarea)
+    - [felipearroyo](participante) vota la tarea: [Crear tabla en SQL](tarea) 
+    - [agustinschilling](participante) vota la tarea: [Crear tabla en SQL](tarea) 
+    - [gonzalosuarez](participante) vota la tarea: [Crear tabla en SQL](tarea) 
+    - [mateocostes](participante) vota la tarea: [Mejora del funcionamiento del script BotMovement](tarea)
+    - [agustinschilling](participante) vota la tarea: [Mejora del funcionamiento del script BotMovement](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Mejora del funcionamiento del script BotMovement](tarea)
+    - [felipearroyo](participante) vota la tarea: [Mejora del funcionamiento del script Notifier en Unity](tarea)
+    - [mateocostes](participante) vota la tarea: [Mejora del funcionamiento del script Notifier en Unity](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Mejora del funcionamiento del script Notifier en Unity](tarea)
+    - [mateocostes](participante) vota la tarea: [Mejora del funcionamiento del script Calculador de Java](tarea)
+    - [felipearroyo](participante) vota la tarea: [Mejora del funcionamiento del script Calculador de Java](tarea)
+    - [agustinschilling](participante) vota la tarea: [Mejora del funcionamiento del script Calculador de Java](tarea)
+    - [felipearroyo](participante) vota la tarea: [Mejora del funcionamiento del script ManejadorArchivos](tarea)
+    - [agustinschilling](participante) vota la tarea: [Mejora del funcionamiento del script ManejadorArchivos](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Mejora del funcionamiento del script ManejadorArchivos](tarea)
+    - [felipearroyo](participante) vota la tarea: [Creacion de chatbot en Rasa](tarea)
+    - [mateocostes](participante) vota la tarea: [Creacion de chatbot en Rasa](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Creacion de chatbot en Rasa](tarea)    
+    - [felipearroyo](participante) vota la tarea: [Implementacion de funcion en Python](tarea)
+    - [agustinschilling](participante) vota la tarea: [Implementacion de funcion en Python](tarea)
+    - [mateocostes](participante) vota la tarea: [Implementacion de funcion en Python](tarea)    
+    - [felipearroyo](participante) vota la tarea: [Agregar autenticacion con algun servicio](tarea) 
+    - [agustinschilling](participante) vota la tarea: [Agregar autenticacion con algun servicio](tarea) 
+    - [gonzalosuarez](participante) vota la tarea: [Agregar autenticacion con algun servicio](tarea) 
+    - [mateocostes](participante) vota la tarea: [Realizar test automatizados para DataManager](tarea)
+    - [agustinschilling](participante) vota la tarea: [Realizar test automatizados para DataManager](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Realizar test automatizados para DataManager](tarea)
+    - [felipearroyo](participante) vota la tarea: [Realizar presentacion para el cliente](tarea)
+    - [mateocostes](participante) vota la tarea: [Realizar presentacion para el cliente](tarea)
+    - [agustinschilling](participante) vota la tarea: [Realizar presentacion para el cliente](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Traducir textos en ingles](tarea)
+    - [felipearroyo](participante) vota la tarea: [Traducir textos en ingles](tarea)
+    - [mateocostes](participante) vota la tarea: [Traducir textos en ingles](tarea)
+    - [agustinschilling](participante) vota la tarea: [Traducir textos en ingles](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Refactorizar clases del proyecto](tarea)
+    - [felipearroyo](participante) vota la tarea: [Refactorizar clases del proyecto](tarea)
+    - [mateocostes](participante) vota la tarea: [Refactorizar clases del proyecto](tarea)
+    - [agustinschilling](participante) vota la tarea: [Refactorizar clases del proyecto](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Implementar text-to-speech y speech-to-text](tarea)
+    - [felipearroyo](participante) vota la tarea: [Implementar text-to-speech y speech-to-text](tarea)
+    - [mateocostes](participante) vota la tarea: [Implementar text-to-speech y speech-to-text](tarea)
+    - [agustinschilling](participante) vota la tarea: [Implementar text-to-speech y speech-to-text](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Armar pagina web del proyecto usando JavaScript](tarea)
+    - [felipearroyo](participante) vota la tarea: [Armar pagina web del proyecto usando JavaScript](tarea)
+    - [mateocostes](participante) vota la tarea: [Armar pagina web del proyecto usando JavaScript](tarea)
+    - [agustinschilling](participante) vota la tarea: [Armar pagina web del proyecto usando JavaScript](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Testear demo para futura presentacion](tarea)
+    - [felipearroyo](participante) vota la tarea: [Testear demo para futura presentacion](tarea)
+    - [mateocostes](participante) vota la tarea: [Testear demo para futura presentacion](tarea)
+    - [agustinschilling](participante) vota la tarea: [Testear demo para futura presentacion](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Identificar tareas triviales en el planeamiento](tarea)
+    - [felipearroyo](participante) vota la tarea: [Identificar tareas triviales en el planeamiento](tarea)
+    - [mateocostes](participante) vota la tarea: [Identificar tareas triviales en el planeamiento](tarea)
+    - [agustinschilling](participante) vota la tarea: [Identificar tareas triviales en el planeamiento](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Implementar realidad virtual al entorno](tarea)
+    - [felipearroyo](participante) vota la tarea: [Implementar realidad virtual al entorno](tarea)
+    - [mateocostes](participante) vota la tarea: [Implementar realidad virtual al entorno](tarea)
+    - [agustinschilling](participante) vota la tarea: [Implementar realidad virtual al entorno](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Realizar animaciones de los modelos](tarea)
+    - [felipearroyo](participante) vota la tarea: [Realizar animaciones de los modelos](tarea)
+    - [mateocostes](participante) vota la tarea: [Realizar animaciones de los modelos](tarea)
+    - [agustinschilling](participante) vota la tarea: [Realizar animaciones de los modelos](tarea)
+    - [gonzalosuarez](participante) vota la tarea: [Arreglar bugs en UI](tarea)
+    - [felipearroyo](participante) vota la tarea: [Arreglar bugs en UI](tarea)
+    - [mateocostes](participante) vota la tarea: [Arreglar bugs en UI](tarea)
+    - [agustinschilling](participante) vota la tarea: [Arreglar bugs en UI](tarea)
+
+
+
+    
+- intent: votar_segunda_votacion
+  examples: |
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [3](voto_minimo) - voto maximo: [5](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [0](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [0.5](voto_minimo) - voto maximo: [13](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [20](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [2](voto_minimo) - voto maximo: [3](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [5](voto_minimo) - voto maximo: [8](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [13](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [8](voto_minimo) - voto maximo: [13](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [40](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [2](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [3](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [5](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [3](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [2](voto_minimo) - voto maximo: [5](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [3](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [100](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [1000](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [2](voto_minimo) - voto maximo: [8](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [3](voto_minimo) - voto maximo: [8](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [20](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [1](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [2](voto_minimo) - voto maximo: [13](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [3](voto_minimo) - voto maximo: [13](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [20](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [0](voto_minimo) - voto maximo: [1](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [0](voto_minimo) - voto maximo: [0.5](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [0.5](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [0.5](voto_minimo) - voto maximo: [2](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [0.5](voto_minimo) - voto maximo: [8](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [13](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [0](voto_minimo) - voto maximo: [0](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [0](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [0.5](voto_minimo) - voto maximo: [3](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [0.5](voto_minimo) - voto maximo: [5](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [0.5](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [0.5](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [0.5](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [5](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [8](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [13](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [1](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [2](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [2](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [2](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [2](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [3](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [3](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [3](voto_minimo) - voto maximo: [3](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [5](voto_minimo) - voto maximo: [13](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [5](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [5](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [5](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [5](voto_minimo) - voto maximo: [5](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [8](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [8](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [8](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [8](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [13](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [13](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [13](voto_minimo) - voto maximo: [13](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [13](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [20](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [20](voto_minimo) - voto maximo: [20](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [20](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [20](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [20](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [40](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [40](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [40](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [40](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [40](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [40](voto_minimo) - voto maximo: [40](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [40](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [100](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [100](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [100](voto_minimo) - voto maximo: [100](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [100](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [felipearroyo](participante) vota por segunda vez. Voto minimo: [1000](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [agustinschilling](participante) vota por segunda vez. Voto minimo: [1000](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [gonzalosuarez](participante) vota por segunda vez. Voto minimo: [1000](voto_minimo) - voto maximo: [1000](voto_maximo)
+    - [mateocostes](participante) vota por segunda vez. Voto minimo: [0](voto_minimo) - voto maximo: [0.5](voto_maximo)
+
+
+    
+    
+- intent: opinion_primera_votacion
+  examples: |
+    - [mateocostes](participante) motivo
+    - [felipearroyo](participante) motivo
+    - [agustinschilling](participante) motivo
+    - [gonzalosuarez](participante) motivo
+    
+- intent: finalizar_ceremonia
+  examples: |
+    - Finalizar Ceremonia
+    - finalizar ceremonia
+   

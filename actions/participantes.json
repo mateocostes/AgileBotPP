@@ -1,0 +1,18 @@
+{	
+    "mateocostes": {
+        "Personalidad": "Neutral",
+        "Habilidades": ["SQL","Java","VB6","Unity"]
+    },
+    "agustinschilling": {
+        "Personalidad": "Precavido",
+        "Habilidades": ["SQL","Java","Devops","Unity"]
+    },
+    "felipearroyo":{ 
+        "Personalidad": "Negativo",
+        "Habilidades": ["Java","C++","Unity"]
+    },
+    "gonzalosuarez":{
+        "Personalidad": "Arriesgado",
+        "Habilidades": ["SQL", "Ingles", "Testing", "test"]
+    }
+}
