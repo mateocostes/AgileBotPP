@@ -38,8 +38,8 @@ diccionarioParticipantes = readArchivo(direcParticipantes)
 direcVotacion = "actions/votacion.json"
 diccionarioVotacion = readArchivo(direcVotacion)
 lista_key = diccionarioParticipantes.keys()
+lista_votos = ["0","0.5","1","2","3","5","8","20","40","100","1000"]
 # VOTOS [0,0.5,1,2,3,5,8,20,40,100], 1000 = infinito, -2 = cafe, -3 = signo de pregunta
-lista_votos = [0,0.5,1,2,3,5,8,20,40,100]
 
 def tieneHablidad(tarea,nombre_partipante) -> bool:
     for habilidad in diccionarioParticipantes[nombre_partipante]["Habilidades"]: #Recorro todas las habilidades del participante
@@ -162,18 +162,20 @@ class ActionVotarSegundaVot(Action):
         return "action_votar_segundavot"
 
     def votoSiguiente(self, voto) -> Text:
-        if voto == 100:
-            return 100
+        if voto == 1000:
+            return 1000
         else:
             posicion = lista_votos.index(voto)
-            return lista_votos(posicion+1)
+            print("Posicion:" + posicion)
+            return lista_votos[posicion+1]
 
     def votoAnterior(self, voto) -> Text:
+        print(lista_votos)
         if voto == 0:
             return 0
         else:
             posicion = lista_votos.index(voto)
-            return lista_votos(posicion-1)
+            return lista_votos[posicion-1]
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
         domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
@@ -185,6 +187,8 @@ class ActionVotarSegundaVot(Action):
         voto_maximo = next (tracker.get_latest_entity_values("voto_maximo"),None)
         voto_maximo = str(voto_maximo)
         print("Voto maximo: " + voto_maximo)
+        if (voto_maximo == "1000"): #Pensar logica
+            voto_maximo = "100"
         tarea = diccionarioVotacion[nombre_partipante]["Tarea"]
         tarea = str(tarea).replace('[','') #elimino caracteres indeseados
         tarea = tarea.replace(']','') #elimino caracteres indeseados
