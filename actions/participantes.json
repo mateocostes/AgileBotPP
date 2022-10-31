@@ -7,24 +7,24 @@
         "Lenguajes": ["java", "vb6", "c#", "c++", "sql", "python"]
     },
     "agustinschilling": {
-        "Riesgo": 3,
+        "Riesgo": 5,
         "Optimismo": 5,
-        "Adaptabilidad": 4,
-        "Habilidades": ["SQL","Java","Devops","Unity"],
-        "Lenguajes": []
+        "Adaptabilidad": 5,
+        "Habilidades": ["devops", "base de datos", "inteligencia artificial", "front end"],
+        "Lenguajes": ["java", "vb6", "c#", "c++", "sql", "python"]
     },
     "felipearroyo":{ 
-        "Riesgo": 3,
-        "Optimismo": 5,
-        "Adaptabilidad": 4,
-        "Habilidades": ["Java","C++","Unity"],
-        "Lenguajes": []
+        "Riesgo": 0,
+        "Optimismo": 0,
+        "Adaptabilidad": 0,
+        "Habilidades": ["devops", "base de datos", "inteligencia artificial", "front end"],
+        "Lenguajes": ["java", "vb6", "c#", "c++", "sql", "python"]
     },
     "gonzalosuarez":{
         "Riesgo": 3,
-        "Optimismo": 5,
-        "Adaptabilidad": 4,
-        "Habilidades": ["SQL", "Ingles", "Testing", "test"],
-        "Lenguajes": []
+        "Optimismo": 3,
+        "Adaptabilidad": 3,
+        "Habilidades": ["devops", "base de datos", "inteligencia artificial", "front end"],
+        "Lenguajes": ["java", "vb6", "c#", "c++", "sql", "python"]
     }
 }

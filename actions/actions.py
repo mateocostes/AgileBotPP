@@ -11,7 +11,7 @@ from pickle import FALSE
 import string
 from tokenize import Double
 from typing import Any, Text, Dict, List
-from numpy import integer
+from numpy import double, integer
 #
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
@@ -274,6 +274,7 @@ class ActionVotarSegundaVot(Action):
         if (nombre_partipante != None and nombre_partipante in lista_key and voto_minimo != None and voto_maximo != None):
             voto = diccionarioVotacion[nombre_partipante]["Voto"]
             voto = eliminarCaracteresIndeseados(voto)
+            voto = voto[1] #Me quedo solo con el numero sin las comillas simples
             valor_adaptabilidad = diccionarioParticipantes[nombre_partipante]["Adaptabilidad"]
             print("Adaptabilidad del participante: " + str(valor_adaptabilidad))
             voto = self.acotarVotosAdaptabilidad(lista_votos_local, valor_adaptabilidad, voto)
