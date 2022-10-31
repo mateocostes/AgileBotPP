@@ -7,8 +7,11 @@
 
 # This is a simple example for a custom action which utters "Hello World!"
 
+from pickle import FALSE
+import string
 from tokenize import Double
 from typing import Any, Text, Dict, List
+from numpy import integer
 #
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
@@ -17,7 +20,7 @@ from datetime import datetime
 import json
 import random
 
-from sqlalchemy import case
+from sqlalchemy import case, false, true
 
 #
 #
@@ -38,66 +41,90 @@ diccionarioParticipantes = readArchivo(direcParticipantes)
 direcVotacion = "actions/votacion.json"
 diccionarioVotacion = readArchivo(direcVotacion)
 lista_key = diccionarioParticipantes.keys()
-lista_votos = ["0","0.5","1","2","3","5","8","20","40","100","1000"]
+lista_votos = ["0","0.5","1","2","3","5","8","13","20","40","100","1000"]
 # VOTOS [0,0.5,1,2,3,5,8,20,40,100], 1000 = infinito, -2 = cafe, -3 = signo de pregunta
 
-def tieneHablidad(tarea,nombre_partipante) -> bool:
+def tieneHablidad(tarea, nombre_partipante) -> bool:
     for habilidad in diccionarioParticipantes[nombre_partipante]["Habilidades"]: #Recorro todas las habilidades del participante
         if (habilidad in tarea): #Si la habilidad aparece en la tarea quiere decir que tiene conocimiento de la misma
+            (diccionarioVotacion[nombre_partipante]["Habilidad"]).append(habilidad) #Agrego la habilidad a un json en caso de tener
             print("Entro con la habilidad " + habilidad)
             return True
     return False
+
+def conoceLenguaje(tarea, nombre_partipante) -> bool:
+    for lenguaje in diccionarioParticipantes[nombre_partipante]["Lenguajes"]: #Recorro todas los lenguajes del participante
+        if (lenguaje in tarea): #Si la habilidad aparece en la tarea quiere decir que tiene conocimiento de la misma
+            (diccionarioVotacion[nombre_partipante]["Lenguaje"]).append(lenguaje) #Agrego el lenguaje a un json en caso de tener
+            print("Entro con el lenguaje " + lenguaje)
+            return True
+    return False
+
+def acotarVotos(lista_votos, mayores, valor):
+    votos_local = lista_votos
+    print("Lista votos local: " + str(votos_local))
+    if (mayores):
+        posicion_max = len(votos_local) - valor
+        print("Lista votos local mayores: " + str(votos_local[0:posicion_max]))
+        return votos_local[0:posicion_max]
+    else:
+        posicion_max = len(votos_local)
+        print("Lista votos local menores: " + str( votos_local[valor:posicion_max] ))
+        return votos_local[valor:posicion_max] #Por ej si acoto la lista en 3 posiciones al inicio, la misma comienza en la posicion 3
+
+def acotarVotosPersonalidad(lista_votos, valor):
+    votos_local = lista_votos
+    if (valor == 0):
+        return acotarVotos(votos_local, False, 3)
+    elif (valor == 1):
+        return acotarVotos(votos_local, False, 2)
+    elif (valor == 2):
+        return acotarVotos(votos_local, False, 1)
+    elif (valor == 3):
+        return acotarVotos(votos_local, True, 1)
+    elif (valor == 4):
+        return acotarVotos(votos_local, True, 2)
+    elif (valor == 5):
+        return acotarVotos(votos_local, True, 3)
+
+def eliminarCaracteresIndeseados(palabra) -> string:
+    palabra = str(palabra).replace('[','') #elimino caracteres indeseados
+    palabra = palabra.replace(']','') #elimino caracteres indeseados
+    return palabra
+
+
 
 class ActionVotarPrimeraVot(Action):
     def name(self) -> Text:
         return "action_votar_primeravot"
 
-    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
-        domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         nombre_partipante = next (tracker.get_latest_entity_values("participante"),None)
         tarea = next (tracker.get_latest_entity_values("tarea"),None)
-        voto = ""
-        message = ""
-        print("Nombre del participante: " + nombre_partipante)
-        print("Tarea actual: " + tarea)
+        voto = 8 #default
+        message = str(voto)
         if (nombre_partipante != None and nombre_partipante in lista_key and tarea != None):
-            personalidad = diccionarioParticipantes[nombre_partipante]["Personalidad"]
-            print("Personalidad del participante: " + personalidad)
-            if (personalidad == "Arriesgado"):
-                if (tieneHablidad(tarea,nombre_partipante)):
-                    voto = random.choice([0,0.5,1])
-                    message = "Voto " + str(voto)
-                else:
-                    voto = random.choice([2,3,5])
-                    message = "Voto " + str(voto)
-            else:
-                if (personalidad == "Precavido"):
-                    if (tieneHablidad(tarea,nombre_partipante)):
-                        voto = random.choice([2,5])
-                        message = "Voto " + str(voto)
-                    else:
-                        voto = random.choice([8,20])
-                        message = "Voto " + str(voto)
-                else:
-                    if (personalidad == "Neutral"):
-                        if (tieneHablidad(tarea,nombre_partipante)):
-                            voto = random.choice([1,2,3,5])
-                            message = "Voto " + str(voto)
-                        else:
-                            voto = random.choice([8,13,20])
-                            message = "Voto " + str(voto)
-                    else:
-                        if (personalidad == "Negativo"):
-                            if ((tieneHablidad(tarea,nombre_partipante))):
-                                voto = random.choice([20,40])
-                                message = "Voto " + str(voto)
-                            else:
-                                voto = random.choice([40,100,1000]) #faltaria ver la votacion -2 (Cafe) -3 (Signo pregunta)
-                                message = "Voto " + str(voto)
+            print("Nombre del participante: " + nombre_partipante)
+            print("Tarea actual: " + tarea)
+            valor_riesgo = diccionarioParticipantes[nombre_partipante]["Riesgo"]
+            valor_optimismo = diccionarioParticipantes[nombre_partipante]["Optimismo"]
+            print("Riesgo del participante: " + str(valor_riesgo))
+            print("Optimismo del participante: " + str(valor_optimismo))
+            if (tieneHablidad(tarea, nombre_partipante)):
+                lista_votos_local = acotarVotos(lista_votos, True, 2)
+            else:  
+                lista_votos_local = acotarVotos(lista_votos, False, 2)
+            if (conoceLenguaje(tarea, nombre_partipante)):
+                lista_votos_local = acotarVotos(lista_votos_local, True, 2)
+            else:  
+                lista_votos_local = acotarVotos(lista_votos_local, False, 2)
+            lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_riesgo)
+            lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_optimismo)
+            voto = random.choice(lista_votos_local)
+            message = voto
             (diccionarioVotacion[nombre_partipante]["Voto"]).append(voto) #Agrego a un json el voto
             (diccionarioVotacion[nombre_partipante]["Tarea"]).append(tarea) #Agrego a un json la tarea
             writeArchivo(direcVotacion,diccionarioVotacion)
-        else: message = "El participante " + nombre_partipante + " no existe o la tarea esta mal definida"
         dispatcher.utter_message(text=message)
         return []
         
@@ -105,129 +132,152 @@ class ActionVotarPrimeraVot(Action):
 class ActionOpinionPrimeraVot(Action):
     def name(self) -> Text:
         return "action_motivo_primeravot"
-        
-    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
-        domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_partipante = next (tracker.get_latest_entity_values("participante"),None)
-        tarea = diccionarioVotacion[nombre_partipante]["Tarea"]
-        tarea = str(tarea).replace('[','') #elimino caracteres indeseados
-        tarea = tarea.replace(']','') #elimino caracteres indeseados
-        voto = diccionarioVotacion[nombre_partipante]["Voto"]
-        voto = str(voto).replace('[','') #elimino caracteres indeseados
-        voto = voto.replace(']','') #elimino caracteres indeseados
-        message = ""
-        if (nombre_partipante != None and nombre_partipante in lista_key):
-            personalidad = diccionarioParticipantes[nombre_partipante]["Personalidad"]
-            if (personalidad == "Arriesgado"):
-                if (tieneHablidad(tarea,nombre_partipante)):
-                    message = "Vote " + voto + " ya que tengo conocimientos sobre el tema"
-                else:
-                    message = "Vote " + voto + " a la tarea " + tarea + " ya que creo que puedo resolverla en poco tiempo"
+    
+    def motivoHabilidad(self, nombre_partipante) -> string:
+        habilidad = (diccionarioVotacion[nombre_partipante]["Habilidad"])
+        if (habilidad != ""):
+            habilidad = eliminarCaracteresIndeseados(habilidad)
+            return str(habilidad)
+        return ""
+
+    def motivoLenguaje(self, nombre_partipante) -> string:
+        lenguaje = (diccionarioVotacion[nombre_partipante]["Lenguaje"])
+        if (lenguaje != ""):
+            lenguaje = eliminarCaracteresIndeseados(lenguaje)
+            return str(lenguaje)
+        return ""
+
+    def motivoRiesgo(self, valor_riesgo) -> string:
+        if (valor_riesgo == 0):
+            return "precavida"
+        elif (valor_riesgo == 1):
+            return "bastante precavida"
+        elif (valor_riesgo == 2):
+            return "poco precavida"
+        elif (valor_riesgo == 3):
+            return "poco arriesgada"
+        elif (valor_riesgo == 4):
+            return "bastante arriesgada"
+        elif (valor_riesgo == 5):
+            return "arriesgada"
+    
+    def motivoOptimismo(self, valor_optimismo) -> string:
+        if (valor_optimismo == 0):
+            return "pesimista"
+        elif (valor_optimismo == 1):
+            return "bastante pesimista"
+        elif (valor_optimismo == 2):
+            return "un poco pesimista"
+        elif (valor_optimismo == 3):
+            return "un poco optimista"
+        elif (valor_optimismo == 4):
+            return "bastante optimista"
+        elif (valor_optimismo == 5):
+            return "optimista"
+
+
+    def darMotivo(self, valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> string:
+        motivoHabilidad = self.motivoHabilidad(nombre_partipante)
+        motivoLenguaje = self.motivoLenguaje(nombre_partipante)
+        motivoRiesgo = self.motivoRiesgo(valor_riesgo)
+        motivoOptimismo = self.motivoOptimismo(valor_optimismo)
+        lista_motivos = []
+        if (motivoHabilidad != ""):
+            if (motivoLenguaje != ""):
+                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que tengo conocimientos sobre " + motivoHabilidad + "en el lenguaje " + motivoLenguaje + " ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_2 = "Al tener experiencia trabajando en " + motivoHabilidad + " con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
+                motivo_3 = "Vote " + str(voto) + " en la tarea " + tarea + ", ya que tengo conocimientos sobre " + motivoHabilidad + "ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + tarea
             else:
-                if (personalidad == "Precavido"):
-                    if (tieneHablidad(tarea,nombre_partipante)):
-                        message = "Tengo conocimientos sobre la tarea " + tarea + " y prefiero resolverla tranquilo y llegar a tiempo, por ello vote" + voto
-                    else:
-                        message = "No tengo conocimiento sobre la tarea y prefiero no arriesgarme"
-                else:
-                    if (personalidad == "Neutral"):
-                        if (tieneHablidad(tarea,nombre_partipante)):
-                            message = "Realice algunas tareas similares y se que me puede llevar " + voto + "puntos realizarla"
-                        else:
-                            message = "Nunca realice algo similar y por ello vote " + voto
-                    else:
-                        if (personalidad == "Negativo"):
-                            if (tieneHablidad(tarea,nombre_partipante)):
-                                message = "Tengo conocimientos sobre la tarea " + tarea + " e igualmente voy a tardar mucho, por ello vote " + voto
-                            else:
-                                if (voto != str(-2) and voto != str(-3) and voto != str(1000)):
-                                    message = "No tengo idea de la tarea " + tarea + " y se que no vamos a poder realizarla, por ello vote " + voto
-                                else:
-                                    if voto == str(-2):
-                                         message = "No tengo idea de la tarea " + tarea + " y se que no vamos a poder realizarla, necesito un descanso"
-                                    else:
-                                        if voto == str(-3):
-                                             message = "Sinceramente no entiendo la tarea " + tarea
-                                        else:
-                                            if voto == str(1000):
-                                                 message = "La tarea " + tarea + " es imposible de realizar"
-                                            else:
-                                                message = "Error al generar el motivo"
-        else: message = "El participante " + nombre_partipante + " no existe."
+                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que tengo conocimientos sobre " + motivoHabilidad + " pero no conozco el lenguaje. Ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_2 = "Al tener experiencia trabajando en " + motivoHabilidad + " pero al no conocer el lenguaje y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
+                motivo_3 = "Vote " + str(voto) + " en la tarea" + tarea + ", ya que tengo conocimientos sobre " + motivoHabilidad + "ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + tarea
+        else:
+            if (motivoLenguaje != ""):
+                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que trabaje con " + motivoLenguaje + " ,pero no conozco muy bien tema, ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_2 = "Al tener experiencia trabajando con " + motivoLenguaje + " ,pero no conozco muy bien tema, y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
+                motivo_3 = "Vote " + str(voto) + " en la tarea " + tarea + ", ya que trabaje con " + motivoLenguaje + " ,ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_4 = "Al tener experiencia trabajando con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + tarea
+            else:
+                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que nunca hice nada similar, ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_2 = "Siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea, ya que nunca hice nada similar"
+                motivo_3 = "Vote " + str(voto) + " en la tarea" + tarea + ", ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_4 = "Siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + tarea
+        lista_motivos.append(motivo_1)
+        lista_motivos.append(motivo_2)
+        lista_motivos.append(motivo_3)
+        lista_motivos.append(motivo_4)
+        return random.choice(lista_motivos)
+        
+    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        nombre_partipante = next (tracker.get_latest_entity_values("participante"),None)
+        message = "Vote eso ya que no sabia que votar" #default
+        if (nombre_partipante != None and nombre_partipante in lista_key):
+            tarea = diccionarioVotacion[nombre_partipante]["Tarea"]
+            tarea = eliminarCaracteresIndeseados(tarea)
+            voto = diccionarioVotacion[nombre_partipante]["Voto"]
+            voto = eliminarCaracteresIndeseados(voto)
+            valor_riesgo = diccionarioParticipantes[nombre_partipante]["Riesgo"]
+            valor_optimismo = diccionarioParticipantes[nombre_partipante]["Optimismo"]
+            message = self.darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea)
         dispatcher.utter_message(text=message)
         return[]
 
 class ActionVotarSegundaVot(Action):
     def name(self) -> Text:
         return "action_votar_segundavot"
+    
+    def acotarVotosMenorMayor(self, voto_minimo, voto_maximo):
+        votos_local = lista_votos
+        posmin = votos_local.index(voto_minimo)
+        posmax = votos_local.index(voto_maximo)
+        return votos_local[posmin:posmax]
 
-    def votoSiguiente(self, voto) -> Text:
-        if voto == 1000:
-            return 1000
-        else:
-            posicion = lista_votos.index(voto)
-            print("Posicion:" + posicion)
-            return lista_votos[posicion+1]
+    def acotarVotosAdaptabilidad(self, lista_votos, valor_adaptabilidad, voto):
+        votos_local = lista_votos
+        if (voto != votos_local[0]) or (valor_adaptabilidad != 0):
+            distancia = self.calcularDistanciaVoto(votos_local, voto)
+            if (valor_adaptabilidad == 1):
+                if (distancia > 4):
+                    voto = votos_local[4]
+            elif (valor_adaptabilidad == 2):
+                if (distancia > 3):
+                    voto = votos_local[3]
+            elif (valor_adaptabilidad == 3):
+                if (distancia > 2):
+                    voto = votos_local[2]
+            elif (valor_adaptabilidad == 4):
+                voto = votos_local[1]
+            elif (valor_adaptabilidad == 5):
+                voto = votos_local[0]
+        return voto
 
-    def votoAnterior(self, voto) -> Text:
-        print(lista_votos)
-        if voto == 0:
-            return 0
-        else:
-            posicion = lista_votos.index(voto)
-            return lista_votos[posicion-1]
+    def calcularDistanciaVoto(self, lista_votos, voto):
+        distancia = 0
+        for voto_local in lista_votos:
+            if (voto_local in voto): #Utilizo in ya que voto es string
+                print("Distancia: " + str(distancia))
+                return distancia
+            else: distancia += 1
 
-    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
-        domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         nombre_partipante = next (tracker.get_latest_entity_values("participante"),None)
-        tarea = next (tracker.get_latest_entity_values("tarea"),None)
         voto_minimo = next (tracker.get_latest_entity_values("voto_minimo"),None)
-        voto_minimo = str(voto_minimo)
-        print("Voto minimo: " + voto_minimo)
         voto_maximo = next (tracker.get_latest_entity_values("voto_maximo"),None)
-        voto_maximo = str(voto_maximo)
-        print("Voto maximo: " + voto_maximo)
-        if (voto_maximo == "1000"): #Pensar logica
+        lista_votos_local = self.acotarVotosMenorMayor(voto_minimo, voto_maximo)
+        print("Voto minimo: " + str(voto_minimo))
+        print("Voto maximo: " + str(voto_maximo))
+        if (voto_maximo == "1000"): #Para que no haya voto 1000
             voto_maximo = "100"
-        tarea = diccionarioVotacion[nombre_partipante]["Tarea"]
-        tarea = str(tarea).replace('[','') #elimino caracteres indeseados
-        tarea = tarea.replace(']','') #elimino caracteres indeseados
-        voto = diccionarioVotacion[nombre_partipante]["Voto"]
-        voto = str(voto).replace('[','') #elimino caracteres indeseados
-        voto = voto.replace(']','') #elimino caracteres indeseados
-        message = ""
+        message = str(voto_minimo) #default
         if (nombre_partipante != None and nombre_partipante in lista_key and voto_minimo != None and voto_maximo != None):
-            personalidad = diccionarioParticipantes[nombre_partipante]["Personalidad"]
-            if (personalidad == "Arriesgado"):
-                if (voto != voto_minimo):
-                    voto = voto_minimo
-                else: 
-                    voto = self.votoAnterior(voto)
-                message = "Voto " + voto
-            else:
-                if (personalidad == "Precavido"):
-                    if (voto != voto_maximo):
-                        voto = voto_maximo
-                    else: 
-                        voto = self.votoSiguiente(voto)
-                    message = "Voto " + voto
-                else:
-                    if (personalidad == "Neutral"):
-                        if (voto == voto_minimo):
-                            voto = self.votoSiguiente(voto)
-                        else: 
-                            if (voto == voto_maximo):
-                                voto = self.votoAnterior(voto)
-                        message = "Voto " + voto
-                    else:
-                        if (personalidad == "Negativo"):
-                            if (voto != str(-2) and voto != str(-3) and voto != str(1000)): #Si no voto las cartas especiales
-                                if (voto == voto_minimo):
-                                    voto = self.votoSiguiente(voto)  
-                            else:
-                                voto = voto_maximo
-                            message = "Voto " + voto
-        else: message = "El participante " + nombre_partipante + " no existe o los votos estan mal definidos - voto:" + voto
+            voto = diccionarioVotacion[nombre_partipante]["Voto"]
+            voto = eliminarCaracteresIndeseados(voto)
+            valor_adaptabilidad = diccionarioParticipantes[nombre_partipante]["Adaptabilidad"]
+            print("Adaptabilidad del participante: " + str(valor_adaptabilidad))
+            voto = self.acotarVotosAdaptabilidad(lista_votos_local, valor_adaptabilidad, voto)
+            message = voto
         dispatcher.utter_message(text=message)
         return []
         

@@ -1,18 +1,30 @@
 {	
     "mateocostes": {
-        "Personalidad": "Neutral",
-        "Habilidades": ["SQL","Java","VB6","Unity"]
+        "Riesgo": 5,
+        "Optimismo": 0,
+        "Adaptabilidad": 3,
+        "Habilidades": ["devops", "base de datos", "inteligencia artificial", "front end"],
+        "Lenguajes": ["java", "vb6", "c#", "c++", "sql", "python"]
     },
     "agustinschilling": {
-        "Personalidad": "Precavido",
-        "Habilidades": ["SQL","Java","Devops","Unity"]
+        "Riesgo": 3,
+        "Optimismo": 5,
+        "Adaptabilidad": 4,
+        "Habilidades": ["SQL","Java","Devops","Unity"],
+        "Lenguajes": []
     },
     "felipearroyo":{ 
-        "Personalidad": "Negativo",
-        "Habilidades": ["Java","C++","Unity"]
+        "Riesgo": 3,
+        "Optimismo": 5,
+        "Adaptabilidad": 4,
+        "Habilidades": ["Java","C++","Unity"],
+        "Lenguajes": []
     },
     "gonzalosuarez":{
-        "Personalidad": "Arriesgado",
-        "Habilidades": ["SQL", "Ingles", "Testing", "test"]
+        "Riesgo": 3,
+        "Optimismo": 5,
+        "Adaptabilidad": 4,
+        "Habilidades": ["SQL", "Ingles", "Testing", "test"],
+        "Lenguajes": []
     }
 }
