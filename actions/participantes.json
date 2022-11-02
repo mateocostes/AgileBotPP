@@ -11,7 +11,7 @@
         "Optimismo": 5,
         "Adaptabilidad": 5,
         "Habilidades": ["devops", "base de datos", "inteligencia artificial", "front end"],
-        "Lenguajes": ["java", "vb6", "c#", "c++", "sql", "python"]
+        "Lenguajes": ["java", "vb6", "c#", "c++", "python"]
     },
     "felipearroyo":{ 
         "Riesgo": 0,
@@ -24,7 +24,7 @@
         "Riesgo": 3,
         "Optimismo": 3,
         "Adaptabilidad": 3,
-        "Habilidades": ["devops", "base de datos", "inteligencia artificial", "front end"],
-        "Lenguajes": ["java", "vb6", "c#", "c++", "sql", "python"]
+        "Habilidades": ["devops", "inteligencia artificial", "front end"],
+        "Lenguajes": ["java", "vb6", "c#", "c++", "python"]
     }
 }

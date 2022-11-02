@@ -87,13 +87,6 @@ def acotarVotosPersonalidad(lista_votos, valor):
     elif (valor == 5):
         return acotarVotos(votos_local, True, 3)
 
-def eliminarCaracteresIndeseados(palabra) -> string:
-    palabra = str(palabra).replace('[','') #elimino caracteres indeseados
-    palabra = palabra.replace(']','') #elimino caracteres indeseados
-    return palabra
-
-
-
 class ActionVotarPrimeraVot(Action):
     def name(self) -> Text:
         return "action_votar_primeravot"
@@ -135,15 +128,17 @@ class ActionOpinionPrimeraVot(Action):
     
     def motivoHabilidad(self, nombre_partipante) -> string:
         habilidad = (diccionarioVotacion[nombre_partipante]["Habilidad"])
-        if (habilidad != ""):
-            habilidad = eliminarCaracteresIndeseados(habilidad)
+        if (habilidad != []):
+            print("habilidad: " + str(habilidad))
+            habilidad = habilidad[0]
             return str(habilidad)
         return ""
 
     def motivoLenguaje(self, nombre_partipante) -> string:
         lenguaje = (diccionarioVotacion[nombre_partipante]["Lenguaje"])
-        if (lenguaje != ""):
-            lenguaje = eliminarCaracteresIndeseados(lenguaje)
+        if (lenguaje != []):
+            lenguaje = lenguaje[0]
+            print("lenguaje: " + lenguaje)
             return str(lenguaje)
         return ""
 
@@ -186,24 +181,24 @@ class ActionOpinionPrimeraVot(Action):
             if (motivoLenguaje != ""):
                 motivo_1 = "Vote " + str(voto) + " en la tarea, ya que tengo conocimientos sobre " + motivoHabilidad + "en el lenguaje " + motivoLenguaje + " ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_2 = "Al tener experiencia trabajando en " + motivoHabilidad + " con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
-                motivo_3 = "Vote " + str(voto) + " en la tarea " + tarea + ", ya que tengo conocimientos sobre " + motivoHabilidad + "ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + tarea
+                motivo_3 = "Vote " + str(voto) + " en la tarea " + str(tarea) + ", ya que tengo conocimientos sobre " + motivoHabilidad + "ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
             else:
                 motivo_1 = "Vote " + str(voto) + " en la tarea, ya que tengo conocimientos sobre " + motivoHabilidad + " pero no conozco el lenguaje. Ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_2 = "Al tener experiencia trabajando en " + motivoHabilidad + " pero al no conocer el lenguaje y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
-                motivo_3 = "Vote " + str(voto) + " en la tarea" + tarea + ", ya que tengo conocimientos sobre " + motivoHabilidad + "ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + tarea
+                motivo_2 = "Al tener experiencia trabajando en " + motivoHabilidad + " pero al no conocer el lenguaje y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
+                motivo_3 = "Vote " + str(voto) + " en la tarea" + str(tarea) + ", ya que tengo conocimientos sobre " + motivoHabilidad + "ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
         else:
             if (motivoLenguaje != ""):
                 motivo_1 = "Vote " + str(voto) + " en la tarea, ya que trabaje con " + motivoLenguaje + " ,pero no conozco muy bien tema, ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_2 = "Al tener experiencia trabajando con " + motivoLenguaje + " ,pero no conozco muy bien tema, y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
-                motivo_3 = "Vote " + str(voto) + " en la tarea " + tarea + ", ya que trabaje con " + motivoLenguaje + " ,ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_4 = "Al tener experiencia trabajando con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + tarea
+                motivo_3 = "Vote " + str(voto) + " en la tarea " + str(tarea) + ", ya que trabaje con " + motivoLenguaje + " ,ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_4 = "Al tener experiencia trabajando con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
             else:
                 motivo_1 = "Vote " + str(voto) + " en la tarea, ya que nunca hice nada similar, ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_2 = "Siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea, ya que nunca hice nada similar"
-                motivo_3 = "Vote " + str(voto) + " en la tarea" + tarea + ", ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_4 = "Siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + tarea
+                motivo_3 = "Vote " + str(voto) + " en la tarea" + str(tarea) + ", ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_4 = "Siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
         lista_motivos.append(motivo_1)
         lista_motivos.append(motivo_2)
         lista_motivos.append(motivo_3)
@@ -213,14 +208,21 @@ class ActionOpinionPrimeraVot(Action):
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         nombre_partipante = next (tracker.get_latest_entity_values("participante"),None)
         message = "Vote eso ya que no sabia que votar" #default
+        voto = 8 #default
+        tarea = ""
         if (nombre_partipante != None and nombre_partipante in lista_key):
-            tarea = diccionarioVotacion[nombre_partipante]["Tarea"]
-            tarea = eliminarCaracteresIndeseados(tarea)
-            voto = diccionarioVotacion[nombre_partipante]["Voto"]
-            voto = eliminarCaracteresIndeseados(voto)
+            if (diccionarioVotacion[nombre_partipante]["Voto"] != []): #Consulto si tiene un valor en la primera votacion
+                voto = diccionarioVotacion[nombre_partipante]["Voto"]
+                voto = voto[0] #Me quedo solo con el numero sin las comillas simples, corchetes y etc
+                print("Voto primera votacion: " + str(voto))
+            if (diccionarioVotacion[nombre_partipante]["Tarea"] != []):
+                tarea = diccionarioVotacion[nombre_partipante]["Tarea"]
+                tarea = tarea[0]
+                print("Tarea: " + str(tarea))
             valor_riesgo = diccionarioParticipantes[nombre_partipante]["Riesgo"]
             valor_optimismo = diccionarioParticipantes[nombre_partipante]["Optimismo"]
-            message = self.darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea)
+            if (valor_riesgo != "" and valor_optimismo != "" and voto != "" and tarea != ""):
+                message = self.darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea)
         dispatcher.utter_message(text=message)
         return[]
 
@@ -231,50 +233,55 @@ class ActionVotarSegundaVot(Action):
     def acotarVotosMenorMayor(self, voto_minimo, voto_maximo):
         votos_local = lista_votos
         posmin = votos_local.index(voto_minimo)
-        posmax = votos_local.index(voto_maximo)
+        posmax = votos_local.index(voto_maximo) + 1
         return votos_local[posmin:posmax]
 
     def acotarVotosAdaptabilidad(self, lista_votos, valor_adaptabilidad, voto):
         votos_local = lista_votos
         if (voto != votos_local[0]) or (valor_adaptabilidad != 0):
             distancia = self.calcularDistanciaVoto(votos_local, voto)
-            if (valor_adaptabilidad == 1):
-                if (distancia > 4):
-                    voto = votos_local[4]
-            elif (valor_adaptabilidad == 2):
-                if (distancia > 3):
-                    voto = votos_local[3]
-            elif (valor_adaptabilidad == 3):
-                if (distancia > 2):
-                    voto = votos_local[2]
-            elif (valor_adaptabilidad == 4):
-                voto = votos_local[1]
-            elif (valor_adaptabilidad == 5):
-                voto = votos_local[0]
+            print("Distancia: " + str(distancia))
+            if (distancia != -1):
+                if (valor_adaptabilidad == 1):
+                    if (distancia > 4):
+                        voto = votos_local[4]
+                elif (valor_adaptabilidad == 2):
+                    if (distancia > 3):
+                        voto = votos_local[3]
+                elif (valor_adaptabilidad == 3):
+                    if (distancia > 2):
+                        voto = votos_local[2]
+                elif (valor_adaptabilidad == 4):
+                    voto = votos_local[1]
+                elif (valor_adaptabilidad == 5):
+                    voto = votos_local[0]
         return voto
 
     def calcularDistanciaVoto(self, lista_votos, voto):
         distancia = 0
         for voto_local in lista_votos:
-            if (voto_local in voto): #Utilizo in ya que voto es string
-                print("Distancia: " + str(distancia))
+            if (voto_local == voto): #Utilizo in ya que voto es string
                 return distancia
             else: distancia += 1
+        return -1 #Error al calcular distancia
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         nombre_partipante = next (tracker.get_latest_entity_values("participante"),None)
         voto_minimo = next (tracker.get_latest_entity_values("voto_minimo"),None)
         voto_maximo = next (tracker.get_latest_entity_values("voto_maximo"),None)
-        lista_votos_local = self.acotarVotosMenorMayor(voto_minimo, voto_maximo)
         print("Voto minimo: " + str(voto_minimo))
         print("Voto maximo: " + str(voto_maximo))
+        lista_votos_local = self.acotarVotosMenorMayor(voto_minimo, voto_maximo)
+        print("lista votos local:" + str(lista_votos_local))
         if (voto_maximo == "1000"): #Para que no haya voto 1000
             voto_maximo = "100"
-        message = str(voto_minimo) #default
+        voto = voto_minimo #default
+        message = str(voto) #default
         if (nombre_partipante != None and nombre_partipante in lista_key and voto_minimo != None and voto_maximo != None):
-            voto = diccionarioVotacion[nombre_partipante]["Voto"]
-            voto = eliminarCaracteresIndeseados(voto)
-            voto = voto[1] #Me quedo solo con el numero sin las comillas simples
+            if (diccionarioVotacion[nombre_partipante]["Voto"] != []): #Consulto si tiene un valor en la primera votacion
+                voto = diccionarioVotacion[nombre_partipante]["Voto"]
+                voto = voto[0] #Me quedo solo con el numero sin las comillas simples, corchetes y etc
+                print("Voto primera votacion: " + str(voto))
             valor_adaptabilidad = diccionarioParticipantes[nombre_partipante]["Adaptabilidad"]
             print("Adaptabilidad del participante: " + str(valor_adaptabilidad))
             voto = self.acotarVotosAdaptabilidad(lista_votos_local, valor_adaptabilidad, voto)
@@ -289,6 +296,7 @@ class ActionFinalizarCeremonia(Action):
     def reiniciarVotacion(self):
         for nombre in diccionarioVotacion.keys():
             for valor in diccionarioVotacion[nombre]:
+
                 (diccionarioVotacion[nombre][valor]).clear()
         writeArchivo(direcVotacion, diccionarioVotacion)
 
