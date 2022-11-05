@@ -19,6 +19,8 @@ from rasa_sdk.events import SlotSet
 from datetime import datetime
 import json
 import random
+import requests
+from flask import jsonify
 
 from sqlalchemy import case, false, true
 
@@ -36,26 +38,36 @@ def writeArchivo(dire,diccionario):
             json.dump(diccionario,archivo)
             archivo.close()
         
-direcParticipantes = "actions/participantes.json"
-diccionarioParticipantes = readArchivo(direcParticipantes)
+api_endpoint_set_vector = "http://181.94.129.186:8088/dispatcher/set-vector"
+api_endpoint_get_vector = "http://181.94.129.186:8088/dispatcher/get-vector"
+diccionarioParticipantes = ""
 direcVotacion = "actions/votacion.json"
 diccionarioVotacion = readArchivo(direcVotacion)
-lista_key = diccionarioParticipantes.keys()
 lista_votos = ["0","0.5","1","2","3","5","8","13","20","40","100","1000"]
 # VOTOS [0,0.5,1,2,3,5,8,20,40,100], 1000 = infinito, -2 = cafe, -3 = signo de pregunta
 
-def tieneHablidad(tarea, nombre_partipante) -> bool:
-    for habilidad in diccionarioParticipantes[nombre_partipante]["Habilidades"]: #Recorro todas las habilidades del participante
+def vectorParticipante(nombre_participante):
+    response = requests.get(url=api_endpoint_get_vector).text
+    #print("response: " + response)
+    diccionarioParticipantes = json.loads(response)
+    for participante in diccionarioParticipantes:
+        if (participante["nickname"] == nombre_participante):
+            print("Vector: " + str(participante["vector"]))
+            return participante["vector"]
+    return None
+
+def tieneHablidad(tarea, nombre_participante, vector_participante) -> bool:
+    for habilidad in vector_participante["habilidades"]: #Recorro todas las habilidades del participante
         if (habilidad in tarea): #Si la habilidad aparece en la tarea quiere decir que tiene conocimiento de la misma
-            (diccionarioVotacion[nombre_partipante]["Habilidad"]).append(habilidad) #Agrego la habilidad a un json en caso de tener
+            (diccionarioVotacion[nombre_participante]["Habilidad"]).append(habilidad) #Agrego la habilidad a un json en caso de tener
             print("Entro con la habilidad " + habilidad)
             return True
     return False
 
-def conoceLenguaje(tarea, nombre_partipante) -> bool:
-    for lenguaje in diccionarioParticipantes[nombre_partipante]["Lenguajes"]: #Recorro todas los lenguajes del participante
+def conoceLenguaje(tarea, nombre_participante, vector_participante) -> bool:
+    for lenguaje in vector_participante["lenguajes"]: #Recorro todas los lenguajes del participante
         if (lenguaje in tarea): #Si la habilidad aparece en la tarea quiere decir que tiene conocimiento de la misma
-            (diccionarioVotacion[nombre_partipante]["Lenguaje"]).append(lenguaje) #Agrego el lenguaje a un json en caso de tener
+            (diccionarioVotacion[nombre_participante]["Lenguaje"]).append(lenguaje) #Agrego el lenguaje a un json en caso de tener
             print("Entro con el lenguaje " + lenguaje)
             return True
     return False
@@ -92,32 +104,35 @@ class ActionVotarPrimeraVot(Action):
         return "action_votar_primeravot"
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_partipante = next (tracker.get_latest_entity_values("participante"),None)
+        nombre_participante = next (tracker.get_latest_entity_values("participante"),None)
         tarea = next (tracker.get_latest_entity_values("tarea"),None)
         voto = 8 #default
         message = str(voto)
-        if (nombre_partipante != None and nombre_partipante in lista_key and tarea != None):
-            print("Nombre del participante: " + nombre_partipante)
-            print("Tarea actual: " + tarea)
-            valor_riesgo = diccionarioParticipantes[nombre_partipante]["Riesgo"]
-            valor_optimismo = diccionarioParticipantes[nombre_partipante]["Optimismo"]
-            print("Riesgo del participante: " + str(valor_riesgo))
-            print("Optimismo del participante: " + str(valor_optimismo))
-            if (tieneHablidad(tarea, nombre_partipante)):
-                lista_votos_local = acotarVotos(lista_votos, True, 2)
-            else:  
-                lista_votos_local = acotarVotos(lista_votos, False, 2)
-            if (conoceLenguaje(tarea, nombre_partipante)):
-                lista_votos_local = acotarVotos(lista_votos_local, True, 2)
-            else:  
-                lista_votos_local = acotarVotos(lista_votos_local, False, 2)
-            lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_riesgo)
-            lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_optimismo)
-            voto = random.choice(lista_votos_local)
-            message = voto
-            (diccionarioVotacion[nombre_partipante]["Voto"]).append(voto) #Agrego a un json el voto
-            (diccionarioVotacion[nombre_partipante]["Tarea"]).append(tarea) #Agrego a un json la tarea
-            writeArchivo(direcVotacion,diccionarioVotacion)
+        #Si vectorParticipante(nombre_participante) != None quiere decir que existe el participante
+        if (nombre_participante != None and tarea != None):
+            vector_participante = vectorParticipante(nombre_participante)
+            if (vector_participante != None):
+                print("Nombre del participante: " + nombre_participante)
+                print("Tarea actual: " + tarea)
+                valor_riesgo = vector_participante["riesgo"]
+                valor_optimismo = vector_participante["optimismo"]
+                print("Riesgo del participante: " + str(valor_riesgo))
+                print("Optimismo del participante: " + str(valor_optimismo))
+                if (tieneHablidad(tarea, nombre_participante, vector_participante)):
+                    lista_votos_local = acotarVotos(lista_votos, True, 2)
+                else:  
+                    lista_votos_local = acotarVotos(lista_votos, False, 2)
+                if (conoceLenguaje(tarea, nombre_participante, vector_participante)):
+                    lista_votos_local = acotarVotos(lista_votos_local, True, 2)
+                else:  
+                    lista_votos_local = acotarVotos(lista_votos_local, False, 2)
+                lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_riesgo)
+                lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_optimismo)
+                voto = random.choice(lista_votos_local)
+                message = voto
+                (diccionarioVotacion[nombre_participante]["Voto"]).append(voto) #Agrego a un json el voto
+                (diccionarioVotacion[nombre_participante]["Tarea"]).append(tarea) #Agrego a un json la tarea
+                writeArchivo(direcVotacion,diccionarioVotacion)
         dispatcher.utter_message(text=message)
         return []
         
@@ -179,14 +194,14 @@ class ActionOpinionPrimeraVot(Action):
         lista_motivos = []
         if (motivoHabilidad != ""):
             if (motivoLenguaje != ""):
-                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que tengo conocimientos sobre " + motivoHabilidad + "en el lenguaje " + motivoLenguaje + " ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que tengo conocimientos sobre " + motivoHabilidad + " en el lenguaje " + motivoLenguaje + " ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_2 = "Al tener experiencia trabajando en " + motivoHabilidad + " con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
-                motivo_3 = "Vote " + str(voto) + " en la tarea " + str(tarea) + ", ya que tengo conocimientos sobre " + motivoHabilidad + "ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_3 = "Vote " + str(voto) + " en la tarea " + str(tarea) + ", ya que tengo conocimientos sobre " + motivoHabilidad + " ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
             else:
                 motivo_1 = "Vote " + str(voto) + " en la tarea, ya que tengo conocimientos sobre " + motivoHabilidad + " pero no conozco el lenguaje. Ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_2 = "Al tener experiencia trabajando en " + motivoHabilidad + " pero al no conocer el lenguaje y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
-                motivo_3 = "Vote " + str(voto) + " en la tarea" + str(tarea) + ", ya que tengo conocimientos sobre " + motivoHabilidad + "ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_3 = "Vote " + str(voto) + " en la tarea" + str(tarea) + ", ya que tengo conocimientos sobre " + motivoHabilidad + " ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
         else:
             if (motivoLenguaje != ""):
@@ -206,23 +221,25 @@ class ActionOpinionPrimeraVot(Action):
         return random.choice(lista_motivos)
         
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_partipante = next (tracker.get_latest_entity_values("participante"),None)
+        nombre_participante = next (tracker.get_latest_entity_values("participante"),None)
         message = "Vote eso ya que no sabia que votar" #default
         voto = 8 #default
         tarea = ""
-        if (nombre_partipante != None and nombre_partipante in lista_key):
-            if (diccionarioVotacion[nombre_partipante]["Voto"] != []): #Consulto si tiene un valor en la primera votacion
-                voto = diccionarioVotacion[nombre_partipante]["Voto"]
-                voto = voto[0] #Me quedo solo con el numero sin las comillas simples, corchetes y etc
-                print("Voto primera votacion: " + str(voto))
-            if (diccionarioVotacion[nombre_partipante]["Tarea"] != []):
-                tarea = diccionarioVotacion[nombre_partipante]["Tarea"]
-                tarea = tarea[0]
-                print("Tarea: " + str(tarea))
-            valor_riesgo = diccionarioParticipantes[nombre_partipante]["Riesgo"]
-            valor_optimismo = diccionarioParticipantes[nombre_partipante]["Optimismo"]
-            if (valor_riesgo != "" and valor_optimismo != "" and voto != "" and tarea != ""):
-                message = self.darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea)
+        if (nombre_participante != None):
+            vector_participante = vectorParticipante(nombre_participante)
+            if(vector_participante != None):
+                if (diccionarioVotacion[nombre_participante]["Voto"] != []): #Consulto si tiene un valor en la primera votacion
+                    voto = diccionarioVotacion[nombre_participante]["Voto"]
+                    voto = voto[0] #Me quedo solo con el numero sin las comillas simples, corchetes y etc
+                    print("Voto primera votacion: " + str(voto))
+                if (diccionarioVotacion[nombre_participante]["Tarea"] != []):
+                    tarea = diccionarioVotacion[nombre_participante]["Tarea"]
+                    tarea = tarea[0]
+                    print("Tarea: " + str(tarea))
+                valor_riesgo = vector_participante["riesgo"]
+                valor_optimismo = vector_participante["optimismo"]
+                if (valor_riesgo != "" and valor_optimismo != "" and voto != "" and tarea != ""):
+                    message = self.darMotivo(valor_riesgo, valor_optimismo, nombre_participante, voto, tarea)
         dispatcher.utter_message(text=message)
         return[]
 
@@ -266,7 +283,7 @@ class ActionVotarSegundaVot(Action):
         return -1 #Error al calcular distancia
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_partipante = next (tracker.get_latest_entity_values("participante"),None)
+        nombre_participante = next (tracker.get_latest_entity_values("participante"),None)
         voto_minimo = next (tracker.get_latest_entity_values("voto_minimo"),None)
         voto_maximo = next (tracker.get_latest_entity_values("voto_maximo"),None)
         print("Voto minimo: " + str(voto_minimo))
@@ -277,15 +294,17 @@ class ActionVotarSegundaVot(Action):
             voto_maximo = "100"
         voto = voto_minimo #default
         message = str(voto) #default
-        if (nombre_partipante != None and nombre_partipante in lista_key and voto_minimo != None and voto_maximo != None):
-            if (diccionarioVotacion[nombre_partipante]["Voto"] != []): #Consulto si tiene un valor en la primera votacion
-                voto = diccionarioVotacion[nombre_partipante]["Voto"]
-                voto = voto[0] #Me quedo solo con el numero sin las comillas simples, corchetes y etc
-                print("Voto primera votacion: " + str(voto))
-            valor_adaptabilidad = diccionarioParticipantes[nombre_partipante]["Adaptabilidad"]
-            print("Adaptabilidad del participante: " + str(valor_adaptabilidad))
-            voto = self.acotarVotosAdaptabilidad(lista_votos_local, valor_adaptabilidad, voto)
-            message = voto
+        if (nombre_participante != None and voto_minimo != None and voto_maximo != None):
+            vector_participante = vectorParticipante(nombre_participante)
+            if(vector_participante != None):
+                if (diccionarioVotacion[nombre_participante]["Voto"] != []): #Consulto si tiene un valor en la primera votacion
+                    voto = diccionarioVotacion[nombre_participante]["Voto"]
+                    voto = voto[0] #Me quedo solo con el numero sin las comillas simples, corchetes y etc
+                    print("Voto primera votacion: " + str(voto))
+                valor_adaptabilidad = vector_participante["adaptabilidad"]
+                print("Adaptabilidad del participante: " + str(valor_adaptabilidad))
+                voto = self.acotarVotosAdaptabilidad(lista_votos_local, valor_adaptabilidad, voto)
+                message = voto
         dispatcher.utter_message(text=message)
         return []
         
