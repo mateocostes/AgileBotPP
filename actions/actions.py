@@ -210,9 +210,9 @@ class ActionOpinionPrimeraVot(Action):
                 motivo_3 = "Vote " + str(voto) + " en la tarea " + str(tarea) + ", ya que trabaje con " + motivoLenguaje + " ,ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_4 = "Al tener experiencia trabajando con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
             else:
-                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que nunca hice nada similar, ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que nunca hice nada similar, ya que soy una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_2 = "Siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea, ya que nunca hice nada similar"
-                motivo_3 = "Vote " + str(voto) + " en la tarea" + str(tarea) + ", ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
+                motivo_3 = "Vote " + str(voto) + " en la tarea" + str(tarea) + ", ya que soy una persona " + motivoRiesgo + " y " + motivoOptimismo
                 motivo_4 = "Siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
         lista_motivos.append(motivo_1)
         lista_motivos.append(motivo_2)
