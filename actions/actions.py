@@ -157,68 +157,213 @@ class ActionOpinionPrimeraVot(Action):
             return str(lenguaje)
         return ""
 
-    def motivoRiesgo(self, valor_riesgo) -> string:
-        if (valor_riesgo == 0):
-            return "precavida"
-        elif (valor_riesgo == 1):
-            return "bastante precavida"
-        elif (valor_riesgo == 2):
-            return "poco precavida"
-        elif (valor_riesgo == 3):
-            return "poco arriesgada"
-        elif (valor_riesgo == 4):
-            return "bastante arriesgada"
-        elif (valor_riesgo == 5):
-            return "arriesgada"
-    
-    def motivoOptimismo(self, valor_optimismo) -> string:
-        if (valor_optimismo == 0):
-            return "pesimista"
-        elif (valor_optimismo == 1):
-            return "bastante pesimista"
-        elif (valor_optimismo == 2):
-            return "un poco pesimista"
-        elif (valor_optimismo == 3):
-            return "un poco optimista"
-        elif (valor_optimismo == 4):
-            return "bastante optimista"
-        elif (valor_optimismo == 5):
-            return "optimista"
-
-
+    def motivoHabLen(self, motivoHabilidad, motivoLenguaje, voto, valor_riesgo, votos_menores) -> string:
+        lista_motivosHabLen = []
+        if (voto in votos_menores): #0,0.5,1,2,3,5,8
+            if (motivoHabilidad != ""):
+                if (motivoLenguaje != ""):
+                    motivoHabLen_1 = "tengo habilidad trabajando en " + motivoHabilidad + " y conocimientos de " + motivoLenguaje
+                    motivoHabLen_2 = "trabaje en " + motivoHabilidad + " con " + motivoLenguaje
+                    motivoHabLen_3 = "tengo conocimientos sobre " + motivoHabilidad + "en el lenguaje " + motivoLenguaje
+                    motivoHabLen_4 = "ya he trabajado en " + motivoHabilidad + " con " + motivoLenguaje
+                    motivoHabLen_5 = "tengo experiencia en " + motivoHabilidad + " con " + motivoLenguaje
+                else:
+                    motivoHabLen_1 = "tengo habilidad trabajando en " + motivoHabilidad + " sin conocer el lenguaje, pero se que puedo aprenderlo rapido"
+                    motivoHabLen_2 = "trabaje en " + motivoHabilidad + " sin conocer el lenguaje, pero lo voy a aprender rapido"
+                    motivoHabLen_3 = "conozco de " + motivoHabilidad + " aunque no sepa el lenguaje, no creo que tome mucho tiempo"
+                    motivoHabLen_4 = "aunque no conozca el lenguaje, se bastante de " + motivoHabilidad
+                    motivoHabLen_5 = "habiendo trabajado en " + motivoHabilidad + " creo que podemos sobrellevar esta tarea"
+            else:
+                if (motivoLenguaje != ""):
+                    motivoHabLen_1 = "he usado " + motivoLenguaje + "antes"
+                    motivoHabLen_2 = "se programar en " + motivoLenguaje
+                    motivoHabLen_3 = "domino el lenguaje " + motivoLenguaje
+                    motivoHabLen_4 = "se me da bien el lenguaje " + motivoLenguaje
+                    motivoHabLen_5 = motivoLenguaje + " es un lenguaje con el que estoy familiarizado"
+                else:
+                    if (valor_riesgo == 4) or (valor_riesgo == 5):
+                        motivoHabLen_1 = "nunca trabaje con ese lenguaje, pero se que lo voy a lograr"
+                        motivoHabLen_2 = "no tengo conocimientos del tema pero voy a aprender rapido"
+                        motivoHabLen_3 = "me parece sencillo aunque no sepa mucho de eso"
+                        motivoHabLen_4 = "el no saber de esta area no me parece un inconveniente para la finalizacion de la tarea"
+                        motivoHabLen_5 = "creo que el tema no es algo que me tome mucho tiempo para aprender"
+                    else:
+                        motivoHabLen_1 = "nunca he trabajado en esa area"
+                        motivoHabLen_2 = "no tengo conocimientos del tema"
+                        motivoHabLen_3 = "no trabaje con ese lenguaje de programacion"
+                        motivoHabLen_4 = "no estoy familiarizado con esa area"
+                        motivoHabLen_5 = "voy a tener que capacitarme para poder realizarla"
+        else:    #13,20,40,100,1000
+            if (motivoHabilidad != ""):
+                if (motivoLenguaje != ""):
+                    motivoHabLen_1 = "tengo habilidad trabajando en " + motivoHabilidad + " y conocimientos de " + motivoLenguaje
+                    motivoHabLen_2 = "trabaje en " + motivoHabilidad + " con " + motivoLenguaje
+                    motivoHabLen_3 = "tengo conocimientos sobre " + motivoHabilidad + "en el lenguaje " + motivoLenguaje
+                    motivoHabLen_4 = "ya he trabajado en " + motivoHabilidad + " con " + motivoLenguaje
+                    motivoHabLen_5 = "tengo experiencia en " + motivoHabilidad + " con " + motivoLenguaje
+                else:
+                    motivoHabLen_1 = "tengo habilidad trabajando en " + motivoHabilidad + "pero no conocer el lenguaje me juega en contra"
+                    motivoHabLen_2 = "trabaje en " + motivoHabilidad + ", pero no saber el lenguaje dificulta las cosas"
+                    motivoHabLen_3 = "conozco de " + motivoHabilidad + " pero tengo que aprender el lenguaje"
+                    motivoHabLen_4 = "debo destacar que no conozco el lenguaje, aunque se bastante de " + motivoHabilidad
+                    motivoHabLen_5 = "aun habiendo trabajado en " + motivoHabilidad + " creo que la falta de conocimiento del lenguaje va a hacer dificil de completar esta tarea"
+            else:
+                if (motivoLenguaje != ""):
+                    motivoHabLen_1 = "he usado " + motivoLenguaje + "antes"
+                    motivoHabLen_2 = "se programar en " + motivoLenguaje + "aunque quiza eso no sea suficiente"
+                    motivoHabLen_3 = "domino el lenguaje " + motivoLenguaje + ", pero esto no trivializa la tarea planteada"
+                    motivoHabLen_4 = "se me da bien el lenguaje " + motivoLenguaje + " pero la tarea es algo complicada"
+                    motivoHabLen_5 = motivoLenguaje + " es un lenguaje con el que estoy familiarizado, pero la tarea sigue pareciendo dificil"
+                else:
+                    if (valor_riesgo == 4) or (valor_riesgo == 5):
+                        motivoHabLen_1 = "el no haber trabajado con lo pedido me hace dudar de que podamos hacerlo, aun si me gusta arriesgarme"
+                        motivoHabLen_2 = "no tengo conocimientos del tema aunque puedo intentar aprender de ser necesario"
+                        motivoHabLen_3 = "no es algo en lo que este familiarizado"
+                        motivoHabLen_4 = "el no saber de este lenguaje puede ser un inconveniente para la finalizacion de la tarea"
+                        motivoHabLen_5 = "creo que me va a llevar algo de tiempo para aprender"
+                    else:
+                        motivoHabLen_1 = "nunca he trabajado en esa area"
+                        motivoHabLen_2 = "no tengo conocimientos del tema"
+                        motivoHabLen_3 = "no trabaje con ese lenguaje de programacion"
+                        motivoHabLen_4 = "no estoy familiarizado con esa area"
+                        motivoHabLen_5 = "voy a tener que capacitarme para poder realizarla"
+        lista_motivosHabLen.append(motivoHabLen_1)
+        lista_motivosHabLen.append(motivoHabLen_2)
+        lista_motivosHabLen.append(motivoHabLen_3)
+        lista_motivosHabLen.append(motivoHabLen_4)
+        lista_motivosHabLen.append(motivoHabLen_5)
+        return random.choice(lista_motivosHabLen)
+              
     def darMotivo(self, valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> string:
         motivoHabilidad = self.motivoHabilidad(nombre_partipante)
         motivoLenguaje = self.motivoLenguaje(nombre_partipante)
-        motivoRiesgo = self.motivoRiesgo(valor_riesgo)
-        motivoOptimismo = self.motivoOptimismo(valor_optimismo)
+        votos_menores = lista_votos[0:7]
+        motivoHabLen = self.motivoHabLen(motivoHabilidad, motivoLenguaje, voto, valor_riesgo, votos_menores)
         lista_motivos = []
-        if (motivoHabilidad != ""):
-            if (motivoLenguaje != ""):
-                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que tengo conocimientos sobre " + motivoHabilidad + " en el lenguaje " + motivoLenguaje + " ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_2 = "Al tener experiencia trabajando en " + motivoHabilidad + " con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
-                motivo_3 = "Vote " + str(voto) + " en la tarea " + str(tarea) + ", ya que tengo conocimientos sobre " + motivoHabilidad + " ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
-            else:
-                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que tengo conocimientos sobre " + motivoHabilidad + " pero no conozco el lenguaje. Ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_2 = "Al tener experiencia trabajando en " + motivoHabilidad + " pero al no conocer el lenguaje y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
-                motivo_3 = "Vote " + str(voto) + " en la tarea" + str(tarea) + ", ya que tengo conocimientos sobre " + motivoHabilidad + " ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_4 = "Al tener experiencia trabajando en " + motivoHabilidad + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
-        else:
-            if (motivoLenguaje != ""):
-                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que trabaje con " + motivoLenguaje + " ,pero no conozco muy bien tema, ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_2 = "Al tener experiencia trabajando con " + motivoLenguaje + " ,pero no conozco muy bien tema, y siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea"
-                motivo_3 = "Vote " + str(voto) + " en la tarea " + str(tarea) + ", ya que trabaje con " + motivoLenguaje + " ,ademas de ser una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_4 = "Al tener experiencia trabajando con " + motivoLenguaje + " y siendo una persona " + motivoRiesgo + " y" + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
-            else:
-                motivo_1 = "Vote " + str(voto) + " en la tarea, ya que nunca hice nada similar, ya que soy una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_2 = "Siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea, ya que nunca hice nada similar"
-                motivo_3 = "Vote " + str(voto) + " en la tarea" + str(tarea) + ", ya que soy una persona " + motivoRiesgo + " y " + motivoOptimismo
-                motivo_4 = "Siendo una persona " + motivoRiesgo + " y " + motivoOptimismo + ", vote " + str(voto) + " en la tarea " + str(tarea)
+        print("lista menores: " + str(votos_menores))
+        if (voto in votos_menores): #0,0.5,1,2,3,5,8
+            if (valor_riesgo == 4) or (valor_riesgo == 5):
+                if (valor_optimismo == 4) or (valor_optimismo == 5):
+                    motivo_1 = "Me considero una persona muy arriesgada y optimista, y " + motivoHabLen + ". Por eso decidi votar "  + str(voto) + " en la tarea "
+                    motivo_2 = "Decidi votar " + str(voto) + ", ya que soy optimista, me gusta arriesgarme, y " + motivoHabLen
+                    motivo_3 = "Al ser alguien optimista y que le gusta tomar riesgos, y teniendo en cuenta que " + motivoHabLen + ", he decidido votar "  + str(voto)
+                    motivo_4 = "Mi estimación es " + str(voto) + " ya que " + motivoHabLen + ", además de estar dispuesto a arriesgarme y ser optimista con el tiempo que nos tomara llevar a cabo la tarea"
+                    motivo_5 = motivoHabLen + ". Teniendo en cuenta esto y mi actitud arriesgada y optimista, vote " + str(voto)
+                elif (valor_optimismo == 2) or (valor_optimismo == 3):
+                    motivo_1 = "Al ser una persona muy arriesgada, " + motivoHabLen + ". Por eso, mi eleccion fue votar "  + str(voto) + " en la tarea"
+                    motivo_2 = "Decidi votar " + str(voto) + " ya que soy arriesgado " + motivoHabLen
+                    motivo_3 = tarea + ", quizá porque suelo arriesgarme al estimar, suena sencillo, y " + motivoHabLen + ". Por eso decidi votar "  + str(voto)
+                    motivo_4 = "Siento que debo arriesgarme y votar " + str(voto) + "en esta tarea, ya que " + motivoHabLen
+                    motivo_5 = "Puede que me esté arriesgando mucho, pero decidi estimar " + str(voto) + "en esta tarea debido a que " + motivoHabLen
+                elif (valor_optimismo == 0) or (valor_optimismo == 1):
+                    motivo_1 = "Aunque suela ser mas pesimista estimando, en este caso decidi arriesgarme y votar " + str(voto) + ", ya que " + motivoHabLen
+                    motivo_2 = "Vote " + str(voto) + " ya que " + motivoHabLen + ". Esta vez, mi lado arriesgado ha influenciado mi estimacion"
+                    motivo_3 = "Siendo alguien arriesgado, aunque pesimista, me parecio apropiado votar " + str(voto) + ". La razon de esto es que " + motivoHabLen
+                    motivo_4 = "Lo primero que hice fue tener en cuenta que " + motivoHabLen + "En funcion a esto, quise mostrarme dispuesto a arriesgarme y votar " + str(voto)
+                    motivo_5 = tarea + "suena al tipo de tarea donde puedo intentar arriesgarme. Eso me llevo a votar " + str(voto) + " porque " + motivoHabLen
+            elif (valor_riesgo == 2) or (valor_riesgo == 3):
+                if (valor_optimismo == 4) or (valor_optimismo == 5):
+                    motivo_1 = "Me considero una persona muy optimista a la hora de resolver problemas, " + motivoHabLen + ". Por lo tanto, decidi votar "  + str(voto) + " en la tarea " + tarea
+                    motivo_2 = "Decidi votar " + str(voto) + " ya que soy bastante optimista " + motivoHabLen + " en la tarea " + tarea
+                    motivo_3 = motivoHabLen + " y siendo una persona optimista, creo que estimar" + str(voto) + " en la tarea es razonable"
+                    motivo_4 = "Tengo fe en que nuestro equipo puede lidiar con esta tarea, por lo que decidí votar " + str(voto) + ". " + motivoHabLen
+                    motivo_5 = "Considerando la tarea, nuestras capacidades, y también que " + motivoHabLen + ", mi estimacion en esta primera votacion es " + str(voto)
+                elif (valor_optimismo == 2) or (valor_optimismo == 3):
+                    motivo_1 = motivoHabLen + ", por lo que vote " + str(voto)
+                    motivo_2 = "No estoy seguro de si fue adecuado, pero dado que " + motivoHabLen + ", decidi votar " + str(voto)
+                    motivo_3 = "Como " + motivoHabLen + ", en la primera votacion vote " + str(voto)
+                    motivo_4 = "No tengo ni tendencia ni aversión al riesgo, por lo que considerando que " + motivoHabLen + " vote " + str(voto)
+                    motivo_5 = "Trato de no tener un sesgo ni muy optimista ni muy negativo a la hora de estimar. Teniendo en cuenta esto, y como " + motivoHabLen + ", vote " + str(voto)
+                elif (valor_optimismo == 0) or (valor_optimismo == 1):
+                    motivo_1 = "Pese a que usualmente soy mala onda estimando, esta vez decidi votar" + str(voto) + " debido a que " + motivoHabLen
+                    motivo_2 = "No suelo estimar tan bajo, pero como " + motivoHabLen + "vote " + str(voto)
+                    motivo_3 = "En esta primera votacion, y al contrario de otras de mis estimaciones, me parecio adecuado votar " + str(voto) + " ya que " + motivoHabLen
+                    motivo_4 = "No suelo estar muy confiado en mi capacidad de resolver problemas. Sin embargo, debido a que " + motivoHabLen + ", he votado " + str(voto)
+                    motivo_5 = "Creo que la tarea amerita una estimacion mas baja a las que suelo realizar, ya que " + motivoHabLen + ". Por lo tanto, he decidido que mi primer str(voto) para la tarea " + tarea + " es " + str(voto)
+            elif (valor_riesgo == 0) or (valor_riesgo == 1):
+                if (valor_optimismo == 4) or (valor_optimismo == 5):
+                    motivo_1 = "Vote " + str(voto) + " porque " + motivoHabLen + ". Creo en que nuestro equipo puede lograr esta tarea en poco tiempo y sin arriesgarse"
+                    motivo_2 = "A veces evito estimar bajo porque no me gusta arriesgarme; pero en este caso vote " + str(voto) + " ya que " + motivoHabLen + ". Creo que somos capaces de realizarla en poco tiempo"
+                    motivo_3 = "Al ser una persona optimista y " + motivoHabLen + ", vote " + str(voto) + "a pesar de ser alguien que no le gusta arriesgarse"
+                    motivo_4 = "Teniendo en cuenta que " + motivoHabLen + ", y a pesar que no me guste arriesgarme, vote" + str(voto) + ". Me parece que vamos a poder llevar a cabo la tarea en ese tiempo."
+                    motivo_5 = "Creo que " + str(voto) + " es una estimación adecuada para la tarea, ya que " + motivoHabLen + ". No me gusta arriesgarme estimando bajo, pero en esta votacion intente ser optimista respecto al tiempo que nos llevaria."
+                elif (valor_optimismo == 2) or (valor_optimismo == 3):
+                    motivo_1 = "No me gusta arriesgarme, pero vote " + str(voto) + " porque "+  motivoHabLen
+                    motivo_2 = motivoHabLen + ", por lo que vote " + str(voto) + " pese a mi aversion al riesgo"
+                    motivo_3 = "Me parecio correcto estimar " + str(voto) + ". No senti que fuera un riesgo, ya que " + motivoHabLen
+                    motivo_4 = "Como " + motivoHabLen + ", no me parecio arriesgado votar" + str(voto)
+                    motivo_5 = "He votado " + str(voto) + " ya que " + motivoHabLen + ". Creo que podemos llevar a cabo esta tarea"
+                elif (valor_optimismo == 0) or (valor_optimismo == 1):    
+                    motivo_1 = "Evidentemente, si alguien mala onda como yo estima " + str(voto) + ", es porque la tarea debe ser realizable." + motivoHabLen
+                    motivo_2 = "Suelo estimar muy alto, pero como " + motivoHabLen + " decidí votar " + str(voto)
+                    motivo_3 = "En función de que " + motivoHabLen + ", creo que puedo votar un poco mas bajo de lo que estoy habituado, por lo que vote " + str(voto)
+                    motivo_4 = "Soy alguien pesimista y con una aversion al riesgo. Al contrastar esto con " + motivoHabLen + ", decidí votar " + str(voto)
+                    motivo_5 = "Pese a que usualmente soy muy mala onda estimando, esta vez decidí votar " + str(voto) + " debido a que " + motivoHabLen
+        else:    #13,20,40,100,1000
+            if (valor_riesgo == 4) or (valor_riesgo == 5):
+                if (valor_optimismo == 4) or (valor_optimismo == 5):
+                    motivo_1 = "Me considero una persona muy arriesgada y optimista, pero " + motivoHabLen + ". Por eso decidi votar "  + str(voto) + " en la tarea "
+                    motivo_2 = "Decidi votar " + str(voto) + ". Incluso si soy optimista y me gusta arriesgarme, hay que tener en cuenta que " + motivoHabLen
+                    motivo_3 = "Soy alguien optimista y que le gusta tomar riesgos, pero teniendo en cuenta que " + motivoHabLen + ", he decidido votar "  + str(voto)
+                    motivo_4 = "Mi estimación es " + str(voto) + " ya que " + motivoHabLen + ", tome en consideracion mi disposicion a arriesgarme y mi optimismo respecto al tiempo que nos tomara llevar a cabo la tarea"
+                    motivo_5 = motivoHabLen + ". Teniendo en cuenta esto, e incluso con mi actitud arriesgada y optimista, no quise votar mas bajo que " + str(voto)
+                elif (valor_optimismo == 2) or (valor_optimismo == 3):
+                    motivo_1 = "Incluso siendo una persona muy arriesgada, " + motivoHabLen + ". Por eso, mi eleccion fue votar "  + str(voto) + " en la tarea"
+                    motivo_2 = "Decidi votar " + str(voto) + " ya que soy arriesgado pero " + motivoHabLen
+                    motivo_3 = tarea + ", aunque suelo arriesgarme al estimar, no me parece trivial, y " + motivoHabLen + ". Por eso decidi votar "  + str(voto)
+                    motivo_4 = "Aunque una parte de mi le gustaria arriesgarse mas y votar mas bajo que " + str(voto) + " en esta tarea, no puedo dejar pasar que " + motivoHabLen
+                    motivo_5 = "Pese a mi tendencia a arriesgarme en mis estimaciones, me parecio que estimar " + str(voto) + " en esta tarea es adecuado debido a que " + motivoHabLen
+                elif (valor_optimismo == 0) or (valor_optimismo == 1):
+                    motivo_1 = "Aunque muchas veces me arriesgo mas estimando, en este caso no pude evitar ser pesimista y votar " + str(voto) + ", ya que " + motivoHabLen
+                    motivo_2 = "Vote " + str(voto) + " ya que " + motivoHabLen + ". Esta vez, mi lado pesimista ha influenciado mi estimacion"
+                    motivo_3 = "Siendo alguien pesimista, aunque arriesgado, me parecio apropiado votar " + str(voto) + ". La razon de esto es que " + motivoHabLen
+                    motivo_4 = "Lo primero que hice fue tener en cuenta que " + motivoHabLen + "En funcion a esto, no considere trivial la tarea, por lo que vote " + str(voto)
+                    motivo_5 = tarea + "suena al tipo de tarea que va a llevar muchisimo tiempo. Eso me llevo a no arriesgarme tanto como otras veces, votando " + str(voto) + " porque " + motivoHabLen
+            elif (valor_riesgo == 2) or (valor_riesgo == 3):
+                if (valor_optimismo == 4) or (valor_optimismo == 5):
+                    motivo_1 = "Aunque me considero persona muy optimista a la hora de resolver problemas, " + motivoHabLen + ". Por lo tanto, decidi votar "  + str(voto) + " en la tarea " + tarea
+                    motivo_2 = "Decidi votar " + str(voto) + " aunque yo sea bastante optimista ya que " + motivoHabLen
+                    motivo_3 = motivoHabLen + " ; y, incluso siendo una persona optimista, creo que estimar" + str(voto) + " en la tarea es razonable"
+                    motivo_4 = "Mas alla de que tengo fe en nuestro equipo, decidí votar " + str(voto) + " porque " + motivoHabLen
+                    motivo_5 = "Considerando la tarea, nuestras capacidades, y también que " + motivoHabLen + ", tristemente no creo poder estimar mas bajo que " + str(voto)
+                elif (valor_optimismo == 2) or (valor_optimismo == 3):
+                    motivo_1 = motivoHabLen + ", por lo que vote " + str(voto)
+                    motivo_2 = "No estoy seguro de si fue adecuado, pero dado que " + motivoHabLen + ", decidi votar " + str(voto)
+                    motivo_3 = "Como " + motivoHabLen + ", en la primera votacion vote " + str(voto)
+                    motivo_4 = "No tengo ni tendencia ni aversión al riesgo, por lo que considerando que " + motivoHabLen + " vote " + str(voto)
+                    motivo_5 = "Trato de no tener un sesgo ni muy optimista ni muy negativo a la hora de estimar. Teniendo en cuenta esto, y como " + motivoHabLen + ", vote " + str(voto)
+                elif (valor_optimismo == 0) or (valor_optimismo == 1):
+                    motivo_1 = "Suelo ser mala onda estimando, y esta vez decidi votar " + str(voto) + " debido a que " + motivoHabLen
+                    motivo_2 = "Como " + motivoHabLen + " y siendo alguien que de por si estima alto, vote " + str(voto)
+                    motivo_3 = "En esta primera votacion, me parecio evidente que tenia que votar " + str(voto) + " ya que " + motivoHabLen
+                    motivo_4 = "No suelo estar muy confiado en mi capacidad de resolver problemas. Si a eso sumamos que " + motivoHabLen + ", no me queda otra que votar " + str(voto)
+                    motivo_5 = "Creo que la tarea amerita una estimacion mas baja a las que suelo realizar, ya que " + motivoHabLen + ". Por lo tanto, he decidido que mi primer str(voto) para la tarea " + tarea + " es " + str(voto)
+            elif (valor_riesgo == 0) or (valor_riesgo == 1):
+                if (valor_optimismo == 4) or (valor_optimismo == 5):
+                    motivo_1 = "Vote " + str(voto) + " porque " + motivoHabLen + ". Quiza visto de otro modo podamos encararlo sin arriesgarse"
+                    motivo_2 = "Quiero evito estimar bajo porque no me gusta arriesgarme; en este caso vote " + str(voto) + " ya que " + motivoHabLen + ". Creo que hay que pensar bien como podria llevarse a cabo"
+                    motivo_3 = "Aunque sea una persona optimista, no me gusta arriesgarme y " + motivoHabLen + ", por lo que vote " + str(voto)
+                    motivo_4 = "Teniendo en cuenta que " + motivoHabLen + " y que no me gusta arriesgarme, vote" + str(voto) + ". Espero que podamos hacer la tarea con un tiempo mejor que ese"
+                    motivo_5 = "Tristemente, creo que " + str(voto) + " es una estimación adecuada para la tarea, ya que " + motivoHabLen + ". Aunque sea alguien optimista, no me gusta arriesgarme estimando bajo."
+                elif (valor_optimismo == 2) or (valor_optimismo == 3):
+                    motivo_1 = "No me gusta arriesgarme, por lo que vote " + str(voto) + " porque "+  motivoHabLen
+                    motivo_2 = motivoHabLen + ", y siendo averso al riesgo vote " + str(voto)
+                    motivo_3 = "Me parecio correcto estimar " + str(voto) + ". No queria arriesgarme, ya que " + motivoHabLen
+                    motivo_4 = "Como " + motivoHabLen + ", me parecio muy arriesgado votar menos que " + str(voto)
+                    motivo_5 = "He votado " + str(voto) + " ya que " + motivoHabLen + ". Quizas alguien mas arriesgado hubiera estimado algo mas bajo"
+                elif (valor_optimismo == 0) or (valor_optimismo == 1):    
+                    motivo_1 = "He estimado " + str(voto) + " porque " + motivoHabLen + ". Quizas mi mala onda influencio mi decision"
+                    motivo_2 = "Suelo estimar muy alto, y como " + motivoHabLen + " decidí votar " + str(voto)
+                    motivo_3 = "En función de que " + motivoHabLen + ", creo que esta justificado estimar alto como estoy habituado, por lo que vote " + str(voto)
+                    motivo_4 = "Soy alguien pesimista y con una aversion al riesgo. Considerando junto a ello " + motivoHabLen + ", llegue a una estimacion inicial de " + str(voto)
+                    motivo_5 = "Suelo ser muy mala onda estimando, y como " + motivoHabLen + ", esta vez no sera la excepcion. En consecuencia, vote " + str(voto)
         lista_motivos.append(motivo_1)
         lista_motivos.append(motivo_2)
         lista_motivos.append(motivo_3)
         lista_motivos.append(motivo_4)
+        lista_motivos.append(motivo_5)
         return random.choice(lista_motivos)
+
         
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         nombre_participante = next (tracker.get_latest_entity_values("participante"),None)
