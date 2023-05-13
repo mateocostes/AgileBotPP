@@ -23,7 +23,8 @@ import requests
 from flask import jsonify
 
 from sqlalchemy import case, false, true
-
+from warnings import filterwarnings
+filterwarnings(action='ignore', category=DeprecationWarning, message='`np.bool` is a deprecated alias')
 #
 #
 
@@ -38,8 +39,8 @@ def writeArchivo(dire,diccionario):
             json.dump(diccionario,archivo)
             archivo.close()
         
-api_endpoint_set_vector = "http://181.94.129.186:8088/dispatcher/set-vector"
-api_endpoint_get_vector = "http://181.94.129.186:8088/dispatcher/get-vector"
+api_endpoint_set_vector = "http://IP/dispatcher/set-vector"
+api_endpoint_get_vector = "http://IP/dispatcher/get-vector"
 diccionarioParticipantes = ""
 direcVotacion = "actions/votacion.json"
 diccionarioVotacion = readArchivo(direcVotacion)
@@ -108,12 +109,14 @@ class ActionVotarPrimeraVot(Action):
         tarea = next (tracker.get_latest_entity_values("tarea"),None)
         voto = 8 #default
         message = str(voto)
+        print("Nombre del participante: " + str(nombre_participante))
+        print("Tarea actual: " + str(tarea))
         #Si vectorParticipante(nombre_participante) != None quiere decir que existe el participante
         if (nombre_participante != None and tarea != None):
             vector_participante = vectorParticipante(nombre_participante)
             if (vector_participante != None):
-                print("Nombre del participante: " + nombre_participante)
-                print("Tarea actual: " + tarea)
+                print("Nombre del participante: " + str(nombre_participante))
+                print("Tarea actual: " + str(tarea))
                 valor_riesgo = vector_participante["riesgo"]
                 valor_optimismo = vector_participante["optimismo"]
                 print("Riesgo del participante: " + str(valor_riesgo))
@@ -259,13 +262,13 @@ class ActionOpinionPrimeraVot(Action):
                     motivo_1 = "Aunque suela ser mas pesimista estimando, en este caso decidi arriesgarme y votar " + str(voto) + ", ya que " + motivoHabLen
                     motivo_2 = "Vote " + str(voto) + " ya que " + motivoHabLen + ". Esta vez, mi lado arriesgado ha influenciado mi estimacion"
                     motivo_3 = "Siendo alguien arriesgado, aunque pesimista, me parecio apropiado votar " + str(voto) + ". La razon de esto es que " + motivoHabLen
-                    motivo_4 = "Lo primero que hice fue tener en cuenta que " + motivoHabLen + "En funcion a esto, quise mostrarme dispuesto a arriesgarme y votar " + str(voto)
+                    motivo_4 = "Lo primero que hice fue tener en cuenta que " + motivoHabLen + " En funcion a esto, quise mostrarme dispuesto a arriesgarme y votar " + str(voto)
                     motivo_5 = tarea + "suena al tipo de tarea donde puedo intentar arriesgarme. Eso me llevo a votar " + str(voto) + " porque " + motivoHabLen
             elif (valor_riesgo == 2) or (valor_riesgo == 3):
                 if (valor_optimismo == 4) or (valor_optimismo == 5):
                     motivo_1 = "Me considero una persona muy optimista a la hora de resolver problemas, " + motivoHabLen + ". Por lo tanto, decidi votar "  + str(voto) + " en la tarea " + tarea
                     motivo_2 = "Decidi votar " + str(voto) + " ya que soy bastante optimista " + motivoHabLen + " en la tarea " + tarea
-                    motivo_3 = motivoHabLen + " y siendo una persona optimista, creo que estimar" + str(voto) + " en la tarea es razonable"
+                    motivo_3 = motivoHabLen + " y siendo una persona optimista, creo que estimar " + str(voto) + " en la tarea es razonable"
                     motivo_4 = "Tengo fe en que nuestro equipo puede lidiar con esta tarea, por lo que decidí votar " + str(voto) + ". " + motivoHabLen
                     motivo_5 = "Considerando la tarea, nuestras capacidades, y también que " + motivoHabLen + ", mi estimacion en esta primera votacion es " + str(voto)
                 elif (valor_optimismo == 2) or (valor_optimismo == 3):
@@ -374,12 +377,12 @@ class ActionOpinionPrimeraVot(Action):
             vector_participante = vectorParticipante(nombre_participante)
             if(vector_participante != None):
                 if (diccionarioVotacion[nombre_participante]["Voto"] != []): #Consulto si tiene un valor en la primera votacion
-                    voto = diccionarioVotacion[nombre_participante]["Voto"]
-                    voto = voto[0] #Me quedo solo con el numero sin las comillas simples, corchetes y etc
+                    voto = diccionarioVotacion[nombre_participante]["Voto"][len(diccionarioVotacion[nombre_participante]["Voto"])-1]
+                    #voto = voto[0] #Me quedo solo con el numero sin las comillas simples, corchetes y etc
                     print("Voto primera votacion: " + str(voto))
                 if (diccionarioVotacion[nombre_participante]["Tarea"] != []):
-                    tarea = diccionarioVotacion[nombre_participante]["Tarea"]
-                    tarea = tarea[0]
+                    tarea = diccionarioVotacion[nombre_participante]["Tarea"][len(diccionarioVotacion[nombre_participante]["Tarea"])-1]
+                    #tarea = tarea[0]
                     print("Tarea: " + str(tarea))
                 valor_riesgo = vector_participante["riesgo"]
                 valor_optimismo = vector_participante["optimismo"]
@@ -456,11 +459,10 @@ class ActionVotarSegundaVot(Action):
 class ActionFinalizarCeremonia(Action):
     def name(self) -> Text:
         return "action_finalizar_ceremonia"
-
+    
     def reiniciarVotacion(self):
         for nombre in diccionarioVotacion.keys():
             for valor in diccionarioVotacion[nombre]:
-
                 (diccionarioVotacion[nombre][valor]).clear()
         writeArchivo(direcVotacion, diccionarioVotacion)
 
