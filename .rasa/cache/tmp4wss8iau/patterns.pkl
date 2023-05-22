@@ -1,0 +1,6 @@
+[
+  {
+    "name": "participante",
+    "pattern": "[.*](participante)"
+  }
+]

@@ -1,0 +1,6 @@
+[
+  {
+    "name": "participante",
+    "pattern": "(\\bmateocostes\\b|\\bfelipearroyo\\b|\\bagustinschiling\\b|\\bgonzalosuarez\\b|\\balelagar\\b|\\bjuanperez\\b|\\bjosegarcia\\b|\\bsalvadordali\\b|\\bjuanfernandez\\b|\\bmariapaz\\b)"
+  }
+]

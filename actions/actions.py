@@ -21,6 +21,7 @@ import json
 import random
 import requests
 from flask import jsonify
+import yaml
 
 from sqlalchemy import case, false, true
 from warnings import filterwarnings
@@ -39,8 +40,8 @@ def writeArchivo(dire,diccionario):
             json.dump(diccionario,archivo)
             archivo.close()
         
-api_endpoint_set_vector = "http://IP/dispatcher/set-vector"
-api_endpoint_get_vector = "http://IP/dispatcher/get-vector"
+api_endpoint_set_vector = "http://201.235.167.187:8088/dispatcher/set-vector"
+api_endpoint_get_vector = "http://201.235.167.187:8088/dispatcher/get-vector"
 diccionarioParticipantes = ""
 direcVotacion = "actions/votacion.json"
 diccionarioVotacion = readArchivo(direcVotacion)
@@ -99,43 +100,92 @@ def acotarVotosPersonalidad(lista_votos, valor):
         return acotarVotos(votos_local, True, 2)
     elif (valor == 5):
         return acotarVotos(votos_local, True, 3)
+    
+def reconocerEntidades(texto, tipo) -> Text:
+    #tipo puede ser participante o tarea
+    if (texto != ""):
+        indice_espacio = texto.find(' ') + 1
+        texto = texto[indice_espacio:]
+        #agrego al nlu el nuevo ejemplo
+        """nlu_line = f"- {tipo} [{texto}]({tipo})"
+        with open("data/nlu.yml", "r") as nlu_file:
+            nlu_data = yaml.safe_load(nlu_file)
+        if (tipo == "participante"):
+            nlu_data.update([{"intent": "reconocer_participante", "examples": [nlu_line]}])
+        else:
+            nlu_data.update([{"intent": "votar_primera_votacion", "examples": [nlu_line]}])
+        with open("data/nlu.yml", "w") as nlu_file:
+            yaml.dump(nlu_data, nlu_file)""" #POR EL MOMENTO NO FUNCIONA
+        #fin de agregado
+        print("Entro a reconocerEntidades con: " + texto)
+        return texto
+    return None
+
+def votarPrimeraVotacionPP(nombre_participante, tarea) -> int:
+    voto = 8 #default
+    #Si vectorParticipante(nombre_participante) != None quiere decir que existe el participante
+    if (nombre_participante != None and tarea != None):
+        vector_participante = vectorParticipante(nombre_participante)
+        if (vector_participante != None):
+            print("Nombre del participante: " + str(nombre_participante))
+            print("Tarea actual: " + str(tarea))
+            valor_riesgo = vector_participante["riesgo"]
+            valor_optimismo = vector_participante["optimismo"]
+            print("Riesgo del participante: " + str(valor_riesgo))
+            print("Optimismo del participante: " + str(valor_optimismo))
+            if (tieneHablidad(tarea, nombre_participante, vector_participante)):
+                lista_votos_local = acotarVotos(lista_votos, True, 2)
+            else:  
+                lista_votos_local = acotarVotos(lista_votos, False, 2)
+            if (conoceLenguaje(tarea, nombre_participante, vector_participante)):
+                lista_votos_local = acotarVotos(lista_votos_local, True, 2)
+            else:  
+                lista_votos_local = acotarVotos(lista_votos_local, False, 2)
+            lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_riesgo)
+            lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_optimismo)
+            voto = random.choice(lista_votos_local)
+            (diccionarioVotacion[nombre_participante]["Voto"]).append(voto) #Agrego a un json el voto
+            (diccionarioVotacion[nombre_participante]["Tarea"]).append(tarea) #Agrego a un json la tarea
+            writeArchivo(direcVotacion,diccionarioVotacion)
+    return voto
+    
+class ActionReconocerParticipante(Action):
+    def name(self) -> Text:
+        return "action_reconocer_participante"
+
+    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        nombre_participante = next (tracker.get_latest_entity_values("participante"),None)
+        if (nombre_participante == None): #Si no se reconocio el participante se lo busca en el texto ingresado.
+            nombre_participante = reconocerEntidades(tracker.latest_message.get("text", ""), "participante")
+        message = "El participante renocido es " + str(nombre_participante)
+        print("Nombre del participante: " + str(nombre_participante))
+        dispatcher.utter_message(text=message)
+        return [SlotSet("participante",str(nombre_participante))]
+    
+class ActionReconocerTarea(Action):
+    def name(self) -> Text:
+        return "action_reconocer_tarea"
+
+    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        tarea = next (tracker.get_latest_entity_values("tarea"),None)
+        if (tarea == None): #Si no se reconocio la tarea se lo busca en el texto ingresado.
+            tarea = reconocerEntidades(tracker.latest_message.get("text", ""), "tarea")
+        message = "La tarea renocida es " + str(tarea)
+        print("Tarea: " + str(tarea))
+        dispatcher.utter_message(text=message)
+        return [SlotSet("tarea",str(tarea))]
 
 class ActionVotarPrimeraVot(Action):
     def name(self) -> Text:
         return "action_votar_primeravot"
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_participante = next (tracker.get_latest_entity_values("participante"),None)
-        tarea = next (tracker.get_latest_entity_values("tarea"),None)
-        voto = 8 #default
-        message = str(voto)
+        nombre_participante = str(tracker.get_slot("participante"))
+        tarea = str(tracker.get_slot("tarea"))
         print("Nombre del participante: " + str(nombre_participante))
         print("Tarea actual: " + str(tarea))
-        #Si vectorParticipante(nombre_participante) != None quiere decir que existe el participante
-        if (nombre_participante != None and tarea != None):
-            vector_participante = vectorParticipante(nombre_participante)
-            if (vector_participante != None):
-                print("Nombre del participante: " + str(nombre_participante))
-                print("Tarea actual: " + str(tarea))
-                valor_riesgo = vector_participante["riesgo"]
-                valor_optimismo = vector_participante["optimismo"]
-                print("Riesgo del participante: " + str(valor_riesgo))
-                print("Optimismo del participante: " + str(valor_optimismo))
-                if (tieneHablidad(tarea, nombre_participante, vector_participante)):
-                    lista_votos_local = acotarVotos(lista_votos, True, 2)
-                else:  
-                    lista_votos_local = acotarVotos(lista_votos, False, 2)
-                if (conoceLenguaje(tarea, nombre_participante, vector_participante)):
-                    lista_votos_local = acotarVotos(lista_votos_local, True, 2)
-                else:  
-                    lista_votos_local = acotarVotos(lista_votos_local, False, 2)
-                lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_riesgo)
-                lista_votos_local = acotarVotosPersonalidad(lista_votos_local,valor_optimismo)
-                voto = random.choice(lista_votos_local)
-                message = voto
-                (diccionarioVotacion[nombre_participante]["Voto"]).append(voto) #Agrego a un json el voto
-                (diccionarioVotacion[nombre_participante]["Tarea"]).append(tarea) #Agrego a un json la tarea
-                writeArchivo(direcVotacion,diccionarioVotacion)
+        voto = votarPrimeraVotacionPP(nombre_participante, tarea)
+        message = str(voto)
         dispatcher.utter_message(text=message)
         return []
         
@@ -369,7 +419,7 @@ class ActionOpinionPrimeraVot(Action):
 
         
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_participante = next (tracker.get_latest_entity_values("participante"),None)
+        nombre_participante = str(tracker.get_slot("participante"))
         message = "Vote eso ya que no sabia que votar" #default
         voto = 8 #default
         tarea = ""
@@ -470,5 +520,66 @@ class ActionFinalizarCeremonia(Action):
         domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         self.reiniciarVotacion()
         message = "Ceremonia Finalizada"
+        dispatcher.utter_message(text=message)
+        return []
+    
+class ActionEstimacion3Puntos(Action):
+    def name(self) -> Text:
+        return "action_estimacion_3_puntos"
+    
+    def aproximarVotoEstimacion3Puntos(self, valor, lista_votos):
+        voto_aproximado = min(lista_votos, key=lambda v: abs(v - valor)) #La función lambda calcula la distancia absoluta entre cada voto v y valor, y min() encuentra el voto con la distancia mínima.
+        return voto_aproximado
+    
+    def calcularVotosEstimacion3Puntos(self, voto, porc_opt, porc_rea, porc_pes):
+        lista_votos = [0, 0.5, 1, 2, 3, 5, 8, 20, 40, 100, 1000] #No puedo usar la definida al principio porque es de strings.
+        voto_optimista = self.aproximarVotoEstimacion3Puntos(voto * porc_opt, lista_votos)
+        voto_realista = self.aproximarVotoEstimacion3Puntos(voto * porc_rea, lista_votos[lista_votos.index(voto_optimista)+1 : ]) #utilizo los elementos del voto optimista en adelante para que no se repitan
+        voto_pesimista = self.aproximarVotoEstimacion3Puntos(voto * porc_pes, lista_votos[lista_votos.index(voto_realista)+1 : ]) #utilizo los elementos del voto optimista en adelante para que no se repitan
+        return voto_optimista, voto_realista, voto_pesimista
+
+    def votarEstimacion3Puntos(self, valor_optimismo, voto):
+        voto_optimista = 0
+        voto_realista = 0
+        voto_pesimista = 0
+        if (valor_optimismo == 0):
+            voto_optimista, voto_realista, voto_pesimista = self.calcularVotosEstimacion3Puntos(voto, 0.2, 0.6, 1)
+        elif (valor_optimismo == 1):
+            voto_optimista, voto_realista, voto_pesimista = self.calcularVotosEstimacion3Puntos(voto, 0.2, 0.4, 0.8)
+        elif (valor_optimismo == 2):
+            voto_optimista, voto_realista, voto_pesimista = self.calcularVotosEstimacion3Puntos(voto, 0.4, 1.2, 1.6)
+        elif (valor_optimismo == 3):
+            voto_optimista, voto_realista, voto_pesimista = self.calcularVotosEstimacion3Puntos(voto, 0.6, 1, 1.4)
+        elif (valor_optimismo == 4):
+            voto_optimista, voto_realista, voto_pesimista = self.calcularVotosEstimacion3Puntos(voto, 0.8, 1.2, 1.4)
+        elif (valor_optimismo == 5):
+            voto_optimista, voto_realista, voto_pesimista = self.calcularVotosEstimacion3Puntos(voto, 1, 1.6, 2)
+        return (voto_optimista, voto_realista, voto_pesimista)
+
+    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        nombre_participante = str(tracker.get_slot("participante"))
+        tarea = str(tracker.get_slot("tarea"))
+        voto = votarPrimeraVotacionPP(nombre_participante, tarea) #Utilizo la logica de la votacion del PP
+        print("Nombre del participante: " + str(nombre_participante))
+        print("Tarea actual: " + str(tarea))
+        print("voto: " + str(voto))
+        votos = [5,8,13] #Votos default. El primer voto es optimista, luego realistas y por ultimo pesimista
+        message = str(votos)
+        #Si vectorParticipante(nombre_participante) != None quiere decir que existe el participante
+        if (nombre_participante != None and tarea != None):
+            vector_participante = vectorParticipante(nombre_participante)
+            if (vector_participante != None):
+                #valor_riesgo = vector_participante["riesgo"]
+                #print("Riesgo del participante: " + str(valor_riesgo))
+                valor_optimismo = vector_participante["optimismo"]
+                print("Optimismo del participante: " + str(valor_optimismo))
+                #LOGICA 3 VOTOS
+                estimacion = self.votarEstimacion3Puntos(valor_optimismo, int(voto))
+                print("votos: " + str(estimacion))
+                #FIN LOGICA 3 VOTOS
+                message = str(estimacion)
+                (diccionarioVotacion[nombre_participante]["Voto"]).append(voto) #Agrego a un json el voto
+                (diccionarioVotacion[nombre_participante]["Tarea"]).append(tarea) #Agrego a un json la tarea
+                writeArchivo(direcVotacion,diccionarioVotacion)
         dispatcher.utter_message(text=message)
         return []

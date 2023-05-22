@@ -1,0 +1,36 @@
+[
+  {
+    "tag_name": "entity",
+    "ids_to_tags": {
+      "1": "B-participante",
+      "2": "I-participante",
+      "3": "L-participante",
+      "4": "U-participante",
+      "5": "B-tarea",
+      "6": "I-tarea",
+      "7": "L-tarea",
+      "8": "U-tarea",
+      "9": "B-voto",
+      "10": "I-voto",
+      "11": "L-voto",
+      "12": "U-voto",
+      "0": "O"
+    },
+    "tags_to_ids": {
+      "B-participante": 1,
+      "I-participante": 2,
+      "L-participante": 3,
+      "U-participante": 4,
+      "B-tarea": 5,
+      "I-tarea": 6,
+      "L-tarea": 7,
+      "U-tarea": 8,
+      "B-voto": 9,
+      "I-voto": 10,
+      "L-voto": 11,
+      "U-voto": 12,
+      "O": 0
+    },
+    "num_tags": 13
+  }
+]

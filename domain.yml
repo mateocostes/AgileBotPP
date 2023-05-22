@@ -6,17 +6,32 @@ intents:
   - afirmar
   - negar
   - desafiar_bot
+  - reconocer_participante
+  - reconocer_tarea
   - votar_primera_votacion
   - votar_segunda_votacion
-  - opinion_primera_votacion
+  - motivo_primera_votacion
   - finalizar_ceremonia
-  #- opinion_segunda_votacion
+  - votar_estimacion_3_puntos
   
 entities:
   - participante
   - tarea
   - voto_minimo
   - voto_maximo
+
+slots:
+  participante:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: custom
+  tarea:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: custom
+
 
 responses:
   utter_saludar:
@@ -32,11 +47,13 @@ responses:
   - text: "Soy un agilebot."
   
 actions:
+  - "action_reconocer_participante"
+  - "action_reconocer_tarea"
   - "action_votar_primeravot"
   - "action_votar_segundavot"
   - "action_motivo_primeravot"
   - "action_finalizar_ceremonia"
-  #- "action_motivo_segundavot"
+  - "action_estimacion_3_puntos"
 
 session_config:
   session_expiration_time: 60
