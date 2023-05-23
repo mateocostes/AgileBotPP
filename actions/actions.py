@@ -182,8 +182,6 @@ class ActionVotarPrimeraVot(Action):
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         nombre_participante = str(tracker.get_slot("participante"))
         tarea = str(tracker.get_slot("tarea"))
-        print("Nombre del participante: " + str(nombre_participante))
-        print("Tarea actual: " + str(tarea))
         voto = votarPrimeraVotacionPP(nombre_participante, tarea)
         message = str(voto)
         dispatcher.utter_message(text=message)

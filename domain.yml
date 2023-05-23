@@ -13,6 +13,7 @@ intents:
   - motivo_primera_votacion
   - finalizar_ceremonia
   - votar_estimacion_3_puntos
+  - motivo_estimacion_3_puntos
   
 entities:
   - participante
@@ -54,6 +55,7 @@ actions:
   - "action_motivo_primeravot"
   - "action_finalizar_ceremonia"
   - "action_estimacion_3_puntos"
+  - "action_motivo_estimacion_3_puntos"
 
 session_config:
   session_expiration_time: 60

@@ -1,13 +1,18 @@
 version: "3.1"
 
 stories:
+
+- story: camino_reconocer_tarea
+  steps:
+  - intent: reconocer_tarea
+  - action: action_reconocer_tarea
+  - checkpoint: check_siguiente
   
 - story: camino_reconocer_participante
   steps:
+  - checkpoint: check_siguiente
   - intent: reconocer_participante
   - action: action_reconocer_participante
-  - intent: reconocer_tarea
-  - action: action_reconocer_tarea
   - checkpoint: check_siguiente
 
 - story: camino_primera_votacion
@@ -36,6 +41,13 @@ stories:
   - checkpoint: check_siguiente
   - intent: votar_estimacion_3_puntos
   - action: action_estimacion_3_puntos
+  - checkpoint: check_siguiente
+
+- story: camino_estimacion_3_puntos
+  steps:
+  - checkpoint: check_siguiente
+  - intent: motivo_estimacion_3_puntos
+  - action: action_motivo_estimacion_3_puntos
   - checkpoint: check_siguiente
   
 - story: camino_finalizar

@@ -80,6 +80,7 @@ nlu:
     - tarea [Implementar realidad virtual al entorno](tarea)
     - tarea [Realizar animaciones de los modelos](tarea)
     - tarea [Arreglar bugs en UI](tarea)
+    - tarea [Realizar request en python a la base de datos](tarea)
 
 - intent: votar_primera_votacion
   examples: |
@@ -103,16 +104,23 @@ nlu:
     
 - intent: motivo_primera_votacion
   examples: |
-    - motivo
-    - dame el motivo de tu votacion
-    - porque decidiste votar eso?
-    - cual fue la decision de tu votacion?
+    - motivo pp
+    - dame el motivo de tu votacion del poker planning
+    - porque decidiste votar eso en el poker planning?
+    - cual fue la decision de tu votacion del pp?
 
 - intent: votar_estimacion_3_puntos
   examples: |
-    - estimacion 3 puntos
+    - vota estimacion 3 puntos
     - podes votar la estimacion 3 puntos
     - vota la estimacion de tres puntos
+
+- intent: motivo_estimacion_3_puntos
+  examples: |
+    - motivo estimacion 3 puntos
+    - dame el motivo de tu votacion de la estimacion 3 puntos
+    - porque decidiste votar eso en la estimacion 3 puntos
+    - cual fue la decision de tu votacion de la estimacion 3 puntos?
     
 - intent: finalizar_ceremonia
   examples: |
