@@ -25,11 +25,13 @@ def writeArchivo(dire,diccionario):
             json.dump(diccionario,archivo, indent=4)
             archivo.close()
         
-api_endpoint_set_vector = "http://201.235.167.187:8088/dispatcher/set-vector"
-api_endpoint_get_vector = "http://201.235.167.187:8088/dispatcher/get-vector"
+api_endpoint_set_vector = "http://IP/dispatcher/set-vector"
+api_endpoint_get_vector = "http://IP/dispatcher/get-vector"
 diccionarioParticipantes = ""
 direcVotacion = "actions/votacion.json"
 diccionarioVotacion = readArchivo(direcVotacion)
+direcErroresReconocimiento = "actions/erroresReconocimiento.json"
+diccionarioErroresReconocimiento = readArchivo(direcErroresReconocimiento)
 
 def vectorParticipante(nombre_participante):
     response = requests.get(url=api_endpoint_get_vector).text
@@ -38,6 +40,12 @@ def vectorParticipante(nombre_participante):
         if (participante["nickname"] == nombre_participante):
             return participante["vector"]
     return None
+
+def reiniciarVotacion(diccionario, direcion):
+    for nombre in diccionario.keys():
+        for valor in diccionario[nombre]:
+            (diccionario[nombre][valor]).clear()
+    writeArchivo(direcion, diccionario)
 
 class ActionFinalizarCeremonia(Action):
     def name(self) -> Text:
@@ -51,7 +59,18 @@ class ActionFinalizarCeremonia(Action):
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
         domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        self.reiniciarVotacion()
+        reiniciarVotacion(diccionarioVotacion, direcVotacion)
         message = "Ceremonia Finalizada"
+        dispatcher.utter_message(text=message)
+        return []
+    
+class ActionInicializarErrores(Action):
+    def name(self) -> Text:
+        return "action_inicializar_errores"
+
+    def run(self, dispatcher: CollectingDispatcher,tracker: Tracker,
+        domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        reiniciarVotacion(diccionarioErroresReconocimiento, direcErroresReconocimiento)
+        message = "Json de errores reconocidos inicializado"
         dispatcher.utter_message(text=message)
         return []

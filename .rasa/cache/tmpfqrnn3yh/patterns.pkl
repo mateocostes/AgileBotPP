@@ -1,6 +1,0 @@
-[
-  {
-    "name": "participante",
-    "pattern": "(\\b\\[mateocostes\\]\\(participante\\)\\b|\\b\\[felipearroyo\\]\\(participante\\)\\b|\\b\\[agustinschiling\\]\\(participante\\)\\b|\\b\\[gonzalosuarez\\]\\(participante\\)\\b|\\b\\[alelagar\\]\\(participante\\)\\b|\\b\\[juanperez\\]\\(participante\\)\\b)"
-  }
-]

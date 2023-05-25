@@ -59,6 +59,10 @@ nlu:
     - participante [felipe](participante)
     - participante [gonzalo](participante)
     - participante [alejandro](participante)
+    - participante [agustinschilling](participante)
+    - participante [felipearroyo](participante)
+    - participante [alelagar](participante)
+    - participante [gonzalosuarez](participante)
 
 - intent: reconocer_tarea
   examples: |
@@ -81,6 +85,8 @@ nlu:
     - tarea [Realizar animaciones de los modelos](tarea)
     - tarea [Arreglar bugs en UI](tarea)
     - tarea [Realizar request en python a la base de datos](tarea)
+    - tarea [Realizar request desde el front-end al servidor usando javascript](tarea)
+    - tarea [Refactorizar codigo del proyecto de back-end en Java](tarea)
 
 - intent: votar_primera_votacion
   examples: |
@@ -104,7 +110,7 @@ nlu:
     
 - intent: motivo_primera_votacion
   examples: |
-    - motivo pp
+    - motivo poker planning
     - dame el motivo de tu votacion del poker planning
     - porque decidiste votar eso en el poker planning?
     - cual fue la decision de tu votacion del pp?
@@ -126,3 +132,9 @@ nlu:
   examples: |
     - Finalizar Ceremonia
     - finalizar ceremonia
+
+- intent: inicializar_errores
+  examples: |
+    - Inicializar Errores
+    - inicializar errores
+

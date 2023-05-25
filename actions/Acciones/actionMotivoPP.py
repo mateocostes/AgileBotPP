@@ -15,7 +15,7 @@ from flask import jsonify
 import yaml
 from actions.Acciones.actionVotarPP import diccionarioVotacion, lista_votos, vectorParticipante
 
-def motivoHabilidad(nombre_participante) -> string:
+def habilidad(nombre_participante) -> string:
     habilidad = (diccionarioVotacion[nombre_participante]["Habilidad"])
     if (habilidad != []):
         habilidad = habilidad[len(diccionarioVotacion[nombre_participante]["Habilidad"])-1]
@@ -23,7 +23,7 @@ def motivoHabilidad(nombre_participante) -> string:
         return str(habilidad)
     return ""
 
-def motivoLenguaje(nombre_participante) -> string:
+def lenguaje(nombre_participante) -> string:
     lenguaje = (diccionarioVotacion[nombre_participante]["Lenguaje"])
     if (lenguaje != []):
         lenguaje = lenguaje[len(diccionarioVotacion[nombre_participante]["Habilidad"])-1]
@@ -31,7 +31,7 @@ def motivoLenguaje(nombre_participante) -> string:
         return str(lenguaje)
     return ""
 
-def motivoHabLen(motivoHabilidad, motivoLenguaje, voto, valor_riesgo, votos_menores) -> string:
+def motivoHabilidadLenuaje(motivoHabilidad, motivoLenguaje, voto, valor_riesgo, votos_menores) -> string:
     lista_motivosHabLen = []
     if (voto in votos_menores): #0,0.5,1,2,3,5,8
         if (motivoHabilidad != ""):
@@ -109,10 +109,10 @@ def motivoHabLen(motivoHabilidad, motivoLenguaje, voto, valor_riesgo, votos_meno
     return random.choice(lista_motivosHabLen)
             
 def darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> string:
-    motivoHabilidad = motivoHabilidad(nombre_partipante)
-    motivoLenguaje = motivoLenguaje(nombre_partipante)
+    motivoHabilidad = habilidad(nombre_partipante)
+    motivoLenguaje = lenguaje(nombre_partipante)
     votos_menores = lista_votos[0:7]
-    motivoHabLen = motivoHabLen(motivoHabilidad, motivoLenguaje, voto, valor_riesgo, votos_menores)
+    motivoHabLen = motivoHabilidadLenuaje(motivoHabilidad, motivoLenguaje, voto, valor_riesgo, votos_menores)
     lista_motivos = []
     if (voto in votos_menores): #0,0.5,1,2,3,5,8
         if (valor_riesgo == 4) or (valor_riesgo == 5):

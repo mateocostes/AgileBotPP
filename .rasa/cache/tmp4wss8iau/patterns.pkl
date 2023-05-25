@@ -1,6 +1,0 @@
-[
-  {
-    "name": "participante",
-    "pattern": "[.*](participante)"
-  }
-]

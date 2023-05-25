@@ -6,52 +6,45 @@ stories:
   steps:
   - intent: reconocer_tarea
   - action: action_reconocer_tarea
-  - checkpoint: check_siguiente
   
 - story: camino_reconocer_participante
   steps:
-  - checkpoint: check_siguiente
+  #- checkpoint: check_siguiente #Se sacaron todos los checkpoints porque generaban errores.
   - intent: reconocer_participante
   - action: action_reconocer_participante
-  - checkpoint: check_siguiente
+  #- checkpoint: check_siguiente
 
 - story: camino_primera_votacion
   steps:
-  - checkpoint: check_siguiente
   - intent: votar_primera_votacion
   - action: action_votar_primeravot
-  - checkpoint: check_siguiente
 
 - story: camino_motivo_primera_votacion
   steps:
-  - checkpoint: check_siguiente
   - intent: motivo_primera_votacion
   - action: action_motivo_primeravot
-  - checkpoint: check_siguiente
   
 - story: camino_segunda_votacion
   steps:
-  - checkpoint: check_siguiente
   - intent: votar_segunda_votacion
   - action: action_votar_segundavot
-  - checkpoint: check_siguiente3
 
-- story: camino_estimacion_3_puntos
+- story: camino_votar_estimacion_3_puntos
   steps:
-  - checkpoint: check_siguiente
   - intent: votar_estimacion_3_puntos
   - action: action_estimacion_3_puntos
-  - checkpoint: check_siguiente
 
-- story: camino_estimacion_3_puntos
+- story: camino_motivo_estimacion_3_puntos
   steps:
-  - checkpoint: check_siguiente
   - intent: motivo_estimacion_3_puntos
   - action: action_motivo_estimacion_3_puntos
-  - checkpoint: check_siguiente
   
 - story: camino_finalizar
   steps:
-  - checkpoint: check_siguiente
   - intent: finalizar_ceremonia
-  - action: action_finalizar_ceremonia #Se utiliza para reiniciar los json de votaciones
+  - action: action_finalizar_ceremonia #Se utiliza para reiniciar el json de votaciones
+
+- story: camino_inicializar_errores_reconocidos
+  steps:
+  - intent: inicializar_errores
+  - action: action_inicializar_errores #Se utiliza para inicializar el json de erroresReconocidos

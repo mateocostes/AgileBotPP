@@ -13,7 +13,7 @@ from actions.Acciones.actionVotarPP import ActionVotarPrimeraVot, ActionVotarSeg
 from actions.Acciones.actionMotivoPP import ActionOpinionPrimeraVot
 from actions.Acciones.actionVotar3P import ActionEstimacion3Puntos
 from actions.Acciones.actionMovito3P import ActionMotivoEstimacion3Puntos
-from actions.Acciones.actionArchivo import ActionFinalizarCeremonia   
+from actions.Acciones.actionArchivo import ActionFinalizarCeremonia, ActionInicializarErrores
 from rasa_sdk import Action
 
 def main():
@@ -25,4 +25,5 @@ def main():
     ActionEstimacion3Puntos()
     ActionMotivoEstimacion3Puntos()
     ActionFinalizarCeremonia()
+    ActionInicializarErrores()
     

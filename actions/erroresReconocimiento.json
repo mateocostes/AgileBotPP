@@ -1,0 +1,10 @@
+{
+    "tareas": {
+        "tareas_no_reconocidas": [],
+        "tareas_mal_reconocidas": []
+    },
+    "participantes": {
+        "participantes_no_reconocidos": [],
+        "participantes_mal_reconocidos": []
+    }
+}

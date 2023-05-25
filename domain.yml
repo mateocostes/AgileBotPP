@@ -14,6 +14,7 @@ intents:
   - finalizar_ceremonia
   - votar_estimacion_3_puntos
   - motivo_estimacion_3_puntos
+  - inicializar_errores
   
 entities:
   - participante
@@ -48,14 +49,15 @@ responses:
   - text: "Soy un agilebot."
   
 actions:
-  - "action_reconocer_participante"
-  - "action_reconocer_tarea"
-  - "action_votar_primeravot"
-  - "action_votar_segundavot"
-  - "action_motivo_primeravot"
-  - "action_finalizar_ceremonia"
-  - "action_estimacion_3_puntos"
-  - "action_motivo_estimacion_3_puntos"
+  - action_reconocer_participante
+  - action_reconocer_tarea
+  - action_votar_primeravot
+  - action_votar_segundavot
+  - action_motivo_primeravot
+  - action_finalizar_ceremonia
+  - action_estimacion_3_puntos
+  - action_motivo_estimacion_3_puntos
+  - action_inicializar_errores
 
 session_config:
   session_expiration_time: 60
