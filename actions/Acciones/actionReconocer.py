@@ -8,13 +8,14 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from actions.Acciones.actionArchivo import writeArchivo, diccionarioErroresReconocimiento, direcErroresReconocimiento
+tarea = None
 
 def reconocerEntidades(texto) -> Text:
     #tipo puede ser participante o tarea
     if (texto != ""):
         indice_espacio = texto.find(' ') + 1
         texto = texto[indice_espacio:]
-        print("Entro a reconocerEntidades con: " + texto)
+        #print("Entro a reconocerEntidades con: " + texto)
         return texto
     return None
 
@@ -42,18 +43,21 @@ class ActionReconocerTarea(Action):
         return "action_reconocer_tarea"
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        global tarea
         tarea = next (tracker.get_latest_entity_values("tarea"),None)
-        print("tarea: " + tarea)
+        print("tarea identificada: " + tarea)
         if (tarea == None): #Si no se reconocio la tarea se lo busca en el texto ingresado.
             tarea = reconocerEntidades(tracker.latest_message.get("text", ""))
             (diccionarioErroresReconocimiento["tareas"]["tareas_no_reconocidas"]).append(tarea)
             writeArchivo(direcErroresReconocimiento,diccionarioErroresReconocimiento)
         else:
             tarea_ingresada = reconocerEntidades(tracker.latest_message.get("text", ""))
+            print("tarea ingresada: " + tarea_ingresada)
             if (tarea != tarea_ingresada): #Si lo reconocido es no igual a lo ingresado
                  (diccionarioErroresReconocimiento["tareas"]["tareas_mal_reconocidas"]).append((tarea, tarea_ingresada))
                  writeArchivo(direcErroresReconocimiento,diccionarioErroresReconocimiento)
         message = "La tarea renocida es " + str(tarea)
         dispatcher.utter_message(text=message)
         writeArchivo(direcErroresReconocimiento,diccionarioErroresReconocimiento)
+        #De momento no se usa el slot
         return [SlotSet("tarea",str(tarea))]

@@ -90,7 +90,9 @@ class ActionVotarPrimeraVot(Action):
         return "action_votar_primeravot"
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_participante = str(tracker.get_slot("participante"))
+        #nombre_participante = str(tracker.get_slot("participante"))
+        nombre_participante = str(tracker.sender_id)
+        print("participante sender: " + str(nombre_participante))
         tarea = str(tracker.get_slot("tarea"))
         voto = votarPrimeraVotacionPP(nombre_participante, tarea)
         message = str(voto)
@@ -138,7 +140,8 @@ class ActionVotarSegundaVot(Action):
         return -1 #Error al calcular distancia
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_participante = next (tracker.get_latest_entity_values("participante"),None)
+        #nombre_participante = next (tracker.get_latest_entity_values("participante"),None)
+        nombre_participante = str(tracker.sender_id)
         voto_minimo = next (tracker.get_latest_entity_values("voto_minimo"),None)
         voto_maximo = next (tracker.get_latest_entity_values("voto_maximo"),None)
         print("Voto minimo: " + str(voto_minimo))

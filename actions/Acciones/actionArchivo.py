@@ -25,8 +25,8 @@ def writeArchivo(dire,diccionario):
             json.dump(diccionario,archivo, indent=4)
             archivo.close()
         
-api_endpoint_set_vector = "http://IP/dispatcher/set-vector"
-api_endpoint_get_vector = "http://IP/dispatcher/get-vector"
+api_endpoint_set_vector = "http://201.235.167.187:8088/dispatcher/set-vector"
+api_endpoint_get_vector = "http://201.235.167.187:8088/dispatcher/get-vector"
 diccionarioParticipantes = ""
 direcVotacion = "actions/votacion.json"
 diccionarioVotacion = readArchivo(direcVotacion)

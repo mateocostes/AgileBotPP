@@ -1,7 +1,17 @@
 {
     "mateocostes": {
-        "Voto": [],
-        "Tarea": [],
+        "Voto": [
+            "5",
+            "5",
+            "13",
+            "3"
+        ],
+        "Tarea": [
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "None",
+            "None"
+        ],
         "Habilidad": [],
         "Lenguaje": [],
         "Voto3puntos": []

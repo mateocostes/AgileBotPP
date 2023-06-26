@@ -50,7 +50,8 @@ class ActionEstimacion3Puntos(Action):
         return (voto_optimista, voto_realista, voto_pesimista)
 
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_participante = str(tracker.get_slot("participante"))
+        #nombre_participante = str(tracker.get_slot("participante"))
+        nombre_participante = str(tracker.sender_id)
         tarea = str(tracker.get_slot("tarea"))
         voto = votarPrimeraVotacionPP(nombre_participante, tarea) #Utilizo la logica de la votacion del PP
         print("voto: " + str(voto))

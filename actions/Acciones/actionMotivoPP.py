@@ -120,14 +120,14 @@ def darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> 
                 motivo_1 = f"Me considero una persona muy arriesgada y optimista, y {motivoHabLen}. Por eso decidi votar {voto} en la tarea "
                 motivo_2 = f"Decidi votar {voto}, ya que soy optimista, me gusta arriesgarme, y {motivoHabLen}"
                 motivo_3 = f"Al ser alguien optimista y que le gusta tomar riesgos, y teniendo en cuenta que {motivoHabLen}, he decidido votar {voto}"
-                motivo_4 = f"Mi estimación es {voto} ya que {motivoHabLen}, además de estar dispuesto a arriesgarme y ser optimista con el tiempo que nos tomara llevar a cabo la tarea"
+                motivo_4 = f"Mi estimacion es {voto} ya que {motivoHabLen}, ademas de estar dispuesto a arriesgarme y ser optimista con el tiempo que nos tomara llevar a cabo la tarea"
                 motivo_5 = f"{motivoHabLen}. Teniendo en cuenta esto y mi actitud arriesgada y optimista, vote {voto}"
             elif (valor_optimismo == 2) or (valor_optimismo == 3):
                 motivo_1 = f"Al ser una persona muy arriesgada, {motivoHabLen}. Por eso, mi eleccion fue votar {voto} en la tarea"
                 motivo_2 = f"Decidi votar {voto} ya que soy arriesgado {motivoHabLen}"
-                motivo_3 = f"Quizá porque suelo arriesgarme al estimar, suena sencillo, y {motivoHabLen}. Por eso decidi votar {voto} en la tarea {tarea}"
+                motivo_3 = f"Quiza porque suelo arriesgarme al estimar, suena sencillo, y {motivoHabLen}. Por eso decidi votar {voto} en la tarea {tarea}"
                 motivo_4 = f"Siento que debo arriesgarme y votar {voto} en esta tarea, ya que {motivoHabLen}"
-                motivo_5 = f"Puede que me esté arriesgando mucho, pero decidi estimar {voto} en esta tarea debido a que {motivoHabLen}"
+                motivo_5 = f"Puede que me este arriesgando mucho, pero decidi estimar {voto} en esta tarea debido a que {motivoHabLen}"
             elif (valor_optimismo == 0) or (valor_optimismo == 1):
                 motivo_1 = f"Aunque suela ser mas pesimista estimando, en este caso decidi arriesgarme y votar {voto}, ya que {motivoHabLen}"
                 motivo_2 = f"Vote {voto} ya que {motivoHabLen}. Esta vez, mi lado arriesgado ha influenciado mi estimacion"
@@ -139,13 +139,13 @@ def darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> 
                 motivo_1 = f"Me considero una persona muy optimista a la hora de resolver problemas, {motivoHabLen}. Por lo tanto, decidi votar {voto} en la tarea {tarea}"
                 motivo_2 = f"Decidi votar {voto} ya que soy bastante optimista {motivoHabLen} en la tarea {tarea}"
                 motivo_3 = f"{motivoHabLen} y siendo una persona optimista, creo que estimar {voto} en la tarea es razonable"
-                motivo_4 = f"Tengo fe en que nuestro equipo puede lidiar con esta tarea, por lo que decidí votar {voto}. {motivoHabLen}"
-                motivo_5 = f"Considerando la tarea, nuestras capacidades, y también que {motivoHabLen}, mi estimacion en esta primera votacion es {voto}"
+                motivo_4 = f"Tengo fe en que nuestro equipo puede lidiar con esta tarea, por lo que decidi votar {voto}. {motivoHabLen}"
+                motivo_5 = f"Considerando la tarea, nuestras capacidades, y tambien que {motivoHabLen}, mi estimacion en esta primera votacion es {voto}"
             elif (valor_optimismo == 2) or (valor_optimismo == 3):
                 motivo_1 = f"{motivoHabLen}, por lo que vote {voto}"
                 motivo_2 = f"No estoy seguro de si fue adecuado, pero dado que {motivoHabLen}, decidi votar {voto}"
                 motivo_3 = f"Como {motivoHabLen}, en la primera votacion vote {voto}"
-                motivo_4 = f"No tengo ni tendencia ni aversión al riesgo, por lo que considerando que {motivoHabLen} vote {voto}"
+                motivo_4 = f"No tengo ni tendencia ni aversion al riesgo, por lo que considerando que {motivoHabLen} vote {voto}"
                 motivo_5 = f"Trato de no tener un sesgo ni muy optimista ni muy negativo a la hora de estimar. Teniendo en cuenta esto, y como {motivoHabLen}, vote {voto}"
             elif (valor_optimismo == 0) or (valor_optimismo == 1):
                 motivo_1 = f"Pese a que usualmente estimo bajo, esta vez decidi votar{voto} debido a que {motivoHabLen}"
@@ -159,7 +159,7 @@ def darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> 
                 motivo_2 = f"A veces evito estimar bajo porque no me gusta arriesgarme; pero en este caso vote {voto} ya que {motivoHabLen}. Creo que somos capaces de realizarla en poco tiempo"
                 motivo_3 = f"Al ser una persona optimista y {motivoHabLen}, vote {voto} a pesar de ser alguien que no le gusta arriesgarse"
                 motivo_4 = f"Teniendo en cuenta que {motivoHabLen}, y a pesar que no me guste arriesgarme, vote {voto}. Me parece que vamos a poder llevar a cabo la tarea en ese tiempo."
-                motivo_5 = f"Creo que {voto} es una estimación adecuada para la tarea, ya que {motivoHabLen}. No me gusta arriesgarme estimando bajo, pero en esta votacion intente ser optimista respecto al tiempo que nos llevaria."
+                motivo_5 = f"Creo que {voto} es una estimacion adecuada para la tarea, ya que {motivoHabLen}. No me gusta arriesgarme estimando bajo, pero en esta votacion intente ser optimista respecto al tiempo que nos llevaria."
             elif (valor_optimismo == 2) or (valor_optimismo == 3):
                 motivo_1 = f"No me gusta arriesgarme, pero vote {voto} porque {motivoHabLen}"
                 motivo_2 = f"{motivoHabLen} por lo que vote {voto} pese a mi aversion al riesgo"
@@ -168,17 +168,17 @@ def darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> 
                 motivo_5 = f"He votado {voto} ya que {motivoHabLen}. Creo que podemos llevar a cabo esta tarea"
             elif (valor_optimismo == 0) or (valor_optimismo == 1):    
                 motivo_1 = f"Evidentemente, es una tarea sencilla y estime {voto}, ya que {motivoHabLen}"
-                motivo_2 = f"Suelo estimar muy alto, pero como {motivoHabLen} decidí votar {voto}"
-                motivo_3 = f"En función de que {motivoHabLen}, creo que puedo votar un poco mas bajo de lo que estoy habituado, por lo que vote {voto}"
-                motivo_4 = f"Soy alguien pesimista y con una aversion al riesgo. Al contrastar esto con {motivoHabLen}, decidí votar {voto}"
-                motivo_5 = f"Pese a que usualmente estimo bajo, esta vez decidí votar {voto} debido a que {motivoHabLen}"
+                motivo_2 = f"Suelo estimar muy alto, pero como {motivoHabLen} decidi votar {voto}"
+                motivo_3 = f"En funcion de que {motivoHabLen}, creo que puedo votar un poco mas bajo de lo que estoy habituado, por lo que vote {voto}"
+                motivo_4 = f"Soy alguien pesimista y con una aversion al riesgo. Al contrastar esto con {motivoHabLen}, decidi votar {voto}"
+                motivo_5 = f"Pese a que usualmente estimo bajo, esta vez decidi votar {voto} debido a que {motivoHabLen}"
     else:    #13,20,40,100,1000
         if (valor_riesgo == 4) or (valor_riesgo == 5):
             if (valor_optimismo == 4) or (valor_optimismo == 5):
                 motivo_1 = f"Me considero una persona muy arriesgada y optimista, pero {motivoHabLen}. Por eso decidi votar {voto} en la tarea"
                 motivo_2 = f"Decidi votar {voto}. Incluso si soy optimista y me gusta arriesgarme, hay que tener en cuenta que {motivoHabLen}"
                 motivo_3 = f"Soy alguien optimista y que le gusta tomar riesgos, pero teniendo en cuenta que {motivoHabLen}, he decidido votar {voto}"
-                motivo_4 = f"Mi estimación es {voto} ya que {motivoHabLen}, tome en consideracion mi disposicion a arriesgarme y mi optimismo respecto al tiempo que nos tomara llevar a cabo la tarea"
+                motivo_4 = f"Mi estimacion es {voto} ya que {motivoHabLen}, tome en consideracion mi disposicion a arriesgarme y mi optimismo respecto al tiempo que nos tomara llevar a cabo la tarea"
                 motivo_5 = f"{motivoHabLen} . Teniendo en cuenta esto, e incluso con mi actitud arriesgada y optimista, no quise votar mas bajo que {voto}"
             elif (valor_optimismo == 2) or (valor_optimismo == 3):
                 motivo_1 = f"Incluso siendo una persona muy arriesgada, {motivoHabLen}. Por eso, mi eleccion fue votar {voto} en la tarea"
@@ -197,13 +197,13 @@ def darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> 
                 motivo_1 = f"Aunque me considero persona muy optimista a la hora de resolver problemas, {motivoHabLen}. Por lo tanto, decidi votar {voto} en la tarea {tarea}"
                 motivo_2 = f"Decidi votar {voto} aunque yo sea bastante optimista ya que {motivoHabLen}"
                 motivo_3 = f"{motivoHabLen}, e incluso siendo una persona optimista, creo que estimar {voto} en la tarea es razonable"
-                motivo_4 = f"Mas alla de que tengo fe en nuestro equipo, decidí votar {voto} porque {motivoHabLen}"
-                motivo_5 = f"Considerando la tarea, nuestras capacidades, y también que {motivoHabLen}, tristemente no creo poder estimar mas bajo que {voto}"
+                motivo_4 = f"Mas alla de que tengo fe en nuestro equipo, decidi votar {voto} porque {motivoHabLen}"
+                motivo_5 = f"Considerando la tarea, nuestras capacidades, y tambien que {motivoHabLen}, tristemente no creo poder estimar mas bajo que {voto}"
             elif (valor_optimismo == 2) or (valor_optimismo == 3):
                 motivo_1 = f"{motivoHabLen}, por lo que vote {voto}"
                 motivo_2 = f"No estoy seguro de si fue adecuado, pero dado que {motivoHabLen}, decidi votar {voto}"
                 motivo_3 = f"Como {motivoHabLen}, en la primera votacion vote {voto}"
-                motivo_4 = f"No tengo ni tendencia ni aversión al riesgo, por lo que considerando que {motivoHabLen} vote {voto}"
+                motivo_4 = f"No tengo ni tendencia ni aversion al riesgo, por lo que considerando que {motivoHabLen} vote {voto}"
                 motivo_5 = f"Trato de no tener un sesgo ni muy optimista ni muy negativo a la hora de estimar. Teniendo en cuenta esto, y como {motivoHabLen}, vote {voto}"
             elif (valor_optimismo == 0) or (valor_optimismo == 1):
                 motivo_1 = f"Suelo estimar bajo, y esta vez decidi votar {voto} debido a que {motivoHabLen}"
@@ -217,7 +217,7 @@ def darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> 
                 motivo_2 = f"Quiero evito estimar bajo porque no me gusta arriesgarme; en este caso vote {voto} ya que {motivoHabLen}. Creo que hay que pensar bien como podria llevarse a cabo"
                 motivo_3 = f"Aunque sea una persona optimista, no me gusta arriesgarme y {motivoHabLen}, por lo que vote {voto}"
                 motivo_4 = f"Teniendo en cuenta que {motivoHabLen} y que no me gusta arriesgarme, vote{voto}. Espero que podamos hacer la tarea con un tiempo mejor que ese"
-                motivo_5 = f"Tristemente, creo que {voto} es una estimación adecuada para la tarea, ya que {motivoHabLen}. Aunque sea alguien optimista, no me gusta arriesgarme estimando bajo."
+                motivo_5 = f"Tristemente, creo que {voto} es una estimacion adecuada para la tarea, ya que {motivoHabLen}. Aunque sea alguien optimista, no me gusta arriesgarme estimando bajo."
             elif (valor_optimismo == 2) or (valor_optimismo == 3):
                 motivo_1 = f"No me gusta arriesgarme, por lo que vote {voto} porque {motivoHabLen}"
                 motivo_2 = f"{motivoHabLen} y siendo averso al riesgo vote {voto}"
@@ -226,8 +226,8 @@ def darMotivo(valor_riesgo, valor_optimismo, nombre_partipante, voto, tarea) -> 
                 motivo_5 = f"He votado {voto} ya que {motivoHabLen}. Quizas alguien mas arriesgado hubiera estimado algo mas bajo"
             elif (valor_optimismo == 0) or (valor_optimismo == 1):    
                 motivo_1 = f"He estimado {voto} porque {motivoHabLen}. Quizas mi pesimismo influencio mi decision"
-                motivo_2 = f"Suelo estimar muy alto, y como {motivoHabLen} decidí votar {voto}"
-                motivo_3 = f"En función de que {motivoHabLen}, creo que esta justificado estimar alto como estoy habituado, por lo que vote {voto}"
+                motivo_2 = f"Suelo estimar muy alto, y como {motivoHabLen} decidi votar {voto}"
+                motivo_3 = f"En funcion de que {motivoHabLen}, creo que esta justificado estimar alto como estoy habituado, por lo que vote {voto}"
                 motivo_4 = f"Soy alguien pesimista y con una aversion al riesgo. Considerando junto a ello {motivoHabLen}, llegue a una estimacion inicial de {voto}"
                 motivo_5 = f"Suelo ser muy pesimista estimando, y como {motivoHabLen}, esta vez no sera la excepcion. En consecuencia, vote {voto}"
     lista_motivos.append(motivo_1)
@@ -242,7 +242,8 @@ class ActionOpinionPrimeraVot(Action):
         return "action_motivo_primeravot"
         
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        nombre_participante = str(tracker.get_slot("participante"))
+        #nombre_participante = str(tracker.get_slot("participante"))
+        nombre_participante = str(tracker.sender_id)
         message = "Vote eso ya que no sabia que votar" #default
         voto = 8 #default
         tarea = ""
