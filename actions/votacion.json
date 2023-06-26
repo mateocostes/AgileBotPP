@@ -4,17 +4,26 @@
             "5",
             "5",
             "13",
-            "3"
+            "3",
+            "8"
         ],
         "Tarea": [
             "Realizar request en python a la base de datos",
             "Realizar request en python a la base de datos",
             "None",
-            "None"
+            "None",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos"
         ],
         "Habilidad": [],
         "Lenguaje": [],
-        "Voto3puntos": []
+        "Voto3puntos": [
+            [
+                5,
+                8,
+                20
+            ]
+        ]
     },
     "agustinschilling": {
         "Voto": [],
@@ -24,11 +33,103 @@
         "Voto3puntos": []
     },
     "felipearroyo": {
-        "Voto": [],
-        "Tarea": [],
+        "Voto": [
+            "8",
+            "8",
+            "13",
+            "3",
+            "13",
+            "3",
+            "8",
+            "3",
+            "8",
+            "3"
+        ],
+        "Tarea": [
+            "None",
+            "None",
+            "None",
+            "None",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos",
+            "Realizar request en python a la base de datos"
+        ],
         "Habilidad": [],
-        "Lenguaje": [],
-        "Voto3puntos": []
+        "Lenguaje": [
+            "python",
+            "python",
+            "python",
+            "python",
+            "python",
+            "python",
+            "python",
+            "python"
+        ],
+        "Voto3puntos": [
+            [
+                2,
+                3,
+                5
+            ],
+            [
+                2,
+                3,
+                5
+            ],
+            [
+                3,
+                5,
+                8
+            ],
+            [
+                0.5,
+                1,
+                2
+            ],
+            [
+                3,
+                5,
+                8
+            ],
+            [
+                0.5,
+                1,
+                2
+            ],
+            [
+                2,
+                3,
+                5
+            ],
+            [
+                0.5,
+                1,
+                2
+            ],
+            [
+                2,
+                3,
+                5
+            ],
+            [
+                0.5,
+                1,
+                2
+            ]
+        ]
     },
     "gonzalosuarez": {
         "Voto": [],

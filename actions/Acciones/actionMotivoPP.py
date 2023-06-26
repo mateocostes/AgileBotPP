@@ -83,7 +83,7 @@ def motivoHabilidadLenuaje(motivoHabilidad, motivoLenguaje, voto, valor_riesgo, 
                 motivoHabLen_5 = f"aun habiendo trabajado en {motivoHabilidad} creo que la falta de conocimiento del lenguaje va a hacer dificil de completar esta tarea"
         else:
             if (motivoLenguaje != ""):
-                motivoHabLen_1 = f"he usado {motivoLenguaje} antes pero al "
+                motivoHabLen_1 = f"he usado {motivoLenguaje} antes aunque parece un poco complicada la tarea"
                 motivoHabLen_2 = f"se programar en {motivoLenguaje} aunque quiza eso no sea suficiente"
                 motivoHabLen_3 = f"domino el lenguaje {motivoLenguaje}, pero esto no trivializa la tarea planteada"
                 motivoHabLen_4 = f"se me da bien el lenguaje {motivoLenguaje} pero la tarea es algo complicada"

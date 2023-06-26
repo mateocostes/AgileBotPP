@@ -1,7 +1,48 @@
 {
     "tareas": {
         "tareas_no_reconocidas": [],
-        "tareas_mal_reconocidas": []
+        "tareas_mal_reconocidas": [
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ],
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ],
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ],
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ],
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ],
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ],
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ],
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ],
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ],
+            [
+                "Realizar request en python a la base de datos",
+                "realizar request en python a la base de datos"
+            ]
+        ]
     },
     "participantes": {
         "participantes_no_reconocidos": [],
