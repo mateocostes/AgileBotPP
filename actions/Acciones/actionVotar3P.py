@@ -15,6 +15,7 @@ from flask import jsonify
 import yaml
 from actions.Acciones.actionVotarPP import votarPrimeraVotacionPP
 from actions.Acciones.actionArchivo import vectorParticipante, writeArchivo, diccionarioVotacion, direcVotacion
+from actions.Acciones.actionReconocer import ActionReconocerTarea
 
 class ActionEstimacion3Puntos(Action):
     def name(self) -> Text:
@@ -52,7 +53,8 @@ class ActionEstimacion3Puntos(Action):
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         #nombre_participante = str(tracker.get_slot("participante"))
         nombre_participante = str(tracker.sender_id)
-        tarea = str(tracker.get_slot("tarea"))
+        #tarea = str(tracker.get_slot("tarea"))
+        tarea = ActionReconocerTarea.tarea_actual
         voto = votarPrimeraVotacionPP(nombre_participante, tarea) #Utilizo la logica de la votacion del PP
         print("voto: " + str(voto))
         votos = (5,8,13) #Votos default. El primer voto es optimista, luego realistas y por ultimo pesimista

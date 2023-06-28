@@ -45,6 +45,7 @@ class ActionReconocerTarea(Action):
     def run(self, dispatcher: CollectingDispatcher,tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         global tarea
         tarea = next (tracker.get_latest_entity_values("tarea"),None)
+        ActionReconocerTarea.tarea_actual = tarea
         print("tarea identificada: " + tarea)
         if (tarea == None): #Si no se reconocio la tarea se lo busca en el texto ingresado.
             tarea = reconocerEntidades(tracker.latest_message.get("text", ""))

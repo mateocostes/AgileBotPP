@@ -14,6 +14,7 @@ import requests
 from flask import jsonify
 import yaml
 from actions.Acciones.actionArchivo import vectorParticipante, writeArchivo, diccionarioVotacion, direcVotacion
+from actions.Acciones.actionReconocer import ActionReconocerTarea
 # VOTOS [0,0.5,1,2,3,5,8,20,40,100], 1000 = infinito, -2 = cafe, -3 = signo de pregunta
 lista_votos = ["0","0.5","1","2","3","5","8","13","20","40","100","1000"]
 
@@ -93,7 +94,8 @@ class ActionVotarPrimeraVot(Action):
         #nombre_participante = str(tracker.get_slot("participante"))
         nombre_participante = str(tracker.sender_id)
         print("participante sender: " + str(nombre_participante))
-        tarea = str(tracker.get_slot("tarea"))
+        #tarea = str(tracker.get_slot("tarea"))
+        tarea = ActionReconocerTarea.tarea_actual
         voto = votarPrimeraVotacionPP(nombre_participante, tarea)
         message = str(voto)
         dispatcher.utter_message(text=message)
